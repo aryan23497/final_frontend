@@ -1,0 +1,90 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+/* src/index.css */
+
+/* Base reset (you can keep your existing if you have one) */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* ============================= */
+/* THEME VARIABLES (GLOBAL) */
+/* ============================= */
+
+/* Default = dark */
+:root {
+  --oasis-bg: #020617;
+  --oasis-text: #e5e7eb;
+  --oasis-muted: #9ca3af;
+
+  --oasis-panel-bg: #020617;
+  --oasis-panel-border: rgba(51, 65, 85, 0.9);
+
+  --oasis-sidebar-border: rgba(56, 189, 248, 0.45);
+  --oasis-content-border: rgba(30, 64, 175, 0.7);
+
+  --oasis-input-bg: rgba(15, 23, 42, 0.96);
+  --oasis-input-border: rgba(51, 65, 85, 0.9);
+
+  --oasis-navbar-bg: rgba(15, 23, 42, 0.96);
+}
+
+/* Light theme overrides */
+:root[data-theme="light"] {
+  --oasis-bg: #f9fafb;
+  --oasis-text: #020617;
+  --oasis-muted: #6b7280;
+
+  --oasis-panel-bg: #ffffff;
+  --oasis-panel-border: rgba(209, 213, 219, 0.9);
+
+  --oasis-sidebar-border: rgba(59, 130, 246, 0.45);
+  --oasis-content-border: rgba(96, 165, 250, 0.7);
+
+  --oasis-input-bg: #ffffff;
+  --oasis-input-border: rgba(209, 213, 219, 0.9);
+
+  --oasis-navbar-bg: rgba(255, 255, 255, 0.96);
+}
+
+/* Dark theme explicit (optional) */
+:root[data-theme="dark"] {
+  --oasis-bg: #020617;
+  --oasis-text: #e5e7eb;
+  --oasis-muted: #9ca3af;
+
+  --oasis-panel-bg: #020617;
+  --oasis-panel-border: rgba(51, 65, 85, 0.9);
+
+  --oasis-sidebar-border: rgba(56, 189, 248, 0.45);
+  --oasis-content-border: rgba(30, 64, 175, 0.7);
+
+  --oasis-input-bg: rgba(15, 23, 42, 0.96);
+  --oasis-input-border: rgba(51, 65, 85, 0.9);
+
+  --oasis-navbar-bg: rgba(15, 23, 42, 0.96);
+}
+
+/* Apply theme to body */
+body {
+  background: var(--oasis-bg);
+  color: var(--oasis-text);
+}

@@ -1,0 +1,319 @@
+/* Main layout: two panels (upload/query left, AI output right) */
+
+.dp-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+  gap: 1.6rem;
+  margin-top: 1.4rem;
+}
+
+/* Generic panel */
+
+.dp-panel {
+  background: radial-gradient(circle at top left, #020617, #020617);
+  border-radius: 18px;
+  border: 1px solid rgba(30, 64, 175, 0.7);
+  padding: 1.5rem 1.6rem;
+  box-shadow: 0 22px 60px rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+  display: flex;
+  flex-direction: column;
+}
+
+.dp-header {
+  margin-bottom: 1rem;
+}
+
+.dp-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.dp-subtitle {
+  font-size: 0.86rem;
+  color: #9ca3af;
+}
+
+.dp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Upload drop zone */
+
+.dp-label {
+  font-size: 0.82rem;
+  color: #9ca3af;
+  margin-bottom: 0.25rem;
+}
+
+.dp-dropzone {
+  border-radius: 14px;
+  border: 1px dashed rgba(148, 163, 184, 0.7);
+  background: rgba(15, 23, 42, 0.95);
+  padding: 1rem 1.1rem;
+  text-align: center;
+}
+
+.dp-drop-main {
+  font-size: 0.9rem;
+}
+
+.dp-drop-icon {
+  margin-right: 0.4rem;
+}
+
+.dp-drop-sub {
+  margin-top: 0.2rem;
+  font-size: 0.82rem;
+  color: #9ca3af;
+}
+
+.dp-browse {
+  font-weight: 600;
+  color: #22d3ee;
+  cursor: pointer;
+}
+
+.dp-drop-hint {
+  margin-top: 0.35rem;
+  font-size: 0.78rem;
+  color: #6b7280;
+}
+
+/* Files list */
+
+.dp-files {
+  margin-top: 0.35rem;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  background: rgba(15, 23, 42, 0.9);
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.dp-files-header {
+  padding: 0.45rem 0.7rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+  font-size: 0.8rem;
+  display: flex;
+  justify-content: space-between;
+  color: #9ca3af;
+}
+
+.dp-files ul {
+  list-style: none;
+  margin: 0;
+  padding: 0.2rem 0;
+}
+
+.dp-file-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.82rem;
+}
+
+.dp-file-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 0.6rem;
+}
+
+.dp-file-remove {
+  border: none;
+  background: transparent;
+  color: #fca5a5;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+/* Query box */
+
+.dp-textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 120px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  background: rgba(15, 23, 42, 0.95);
+  color: #e5e7eb;
+  font-size: 0.86rem;
+  padding: 0.6rem 0.7rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+.dp-textarea::placeholder {
+  color: #6b7280;
+}
+
+.dp-textarea:focus {
+  outline: none;
+  border-color: rgba(34, 211, 238, 0.85);
+  box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.5);
+}
+
+/* Buttons */
+
+.btn {
+  border-radius: 999px;
+  font-size: 0.85rem;
+  padding: 0.45rem 1.1rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.12s ease, box-shadow 0.12s ease,
+    background 0.15s ease, border-color 0.15s ease;
+}
+
+.dp-btn-primary {
+  background: #22d3ee;
+  color: #020617;
+  border-color: #22d3ee;
+}
+
+.dp-btn-primary:hover:not(:disabled) {
+  box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.45);
+  transform: translateY(-1px);
+}
+
+.dp-btn-secondary {
+  background: rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+  border-color: rgba(148, 163, 184, 0.7);
+}
+
+.dp-btn-secondary:hover:not(:disabled) {
+  border-color: rgba(34, 211, 238, 0.7);
+}
+
+.btn:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.dp-actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.25rem;
+}
+
+.dp-note {
+  margin-top: 0.4rem;
+  font-size: 0.78rem;
+  color: #6b7280;
+}
+
+/* RIGHT PANEL: OUTPUT */
+
+.dp-header-right {
+  margin-bottom: 0.8rem;
+}
+
+.dp-output {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.dp-output-empty {
+  flex: 1;
+  border-radius: 14px;
+  border: 1px dashed rgba(148, 163, 184, 0.5);
+  background: rgba(15, 23, 42, 0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1.2rem;
+  font-size: 0.86rem;
+  color: #9fb4d8;
+}
+
+.dp-output-empty p:first-child {
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+/* When answer exists */
+
+.dp-output-card {
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: rgba(15, 23, 42, 0.96);
+  padding: 0.9rem 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.dp-output-text {
+  flex: 1;
+  margin: 0;
+  white-space: pre-wrap;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  font-size: 0.84rem;
+  color: #e5e7eb;
+}
+
+.dp-output-footer {
+  margin-top: 0.6rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.dp-mini-btn {
+  font-size: 0.78rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+  cursor: pointer;
+}
+
+/* Loading state */
+
+.dp-output-loading {
+  flex: 1;
+  border-radius: 14px;
+  border: 1px dashed rgba(148, 163, 184, 0.6);
+  background: rgba(15, 23, 42, 0.95);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  color: #9fb4d8;
+  font-size: 0.86rem;
+}
+
+.dp-spinner {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  border: 3px solid rgba(148, 163, 184, 0.5);
+  border-top-color: #22d3ee;
+  animation: dp-spin 0.7s linear infinite;
+}
+
+@keyframes dp-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive */
+
+@media (max-width: 1024px) {
+  .dp-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

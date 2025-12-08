@@ -1,0 +1,405 @@
+/* src/modules/DataAccessServerModule.css */
+
+.das-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(0, 1.6fr);
+  gap: 1.6rem;
+  margin-top: 1.4rem;
+}
+
+/* LEFT PANEL – FILTERS */
+
+.das-filter-panel {
+  background: radial-gradient(circle at top left, #020617, #020617);
+  border-radius: 18px;
+  border: 1px solid rgba(30, 64, 175, 0.7);
+  padding: 1.4rem 1.5rem;
+  box-shadow: 0 22px 60px rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+}
+
+.das-panel-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.das-panel-subtitle {
+  font-size: 0.86rem;
+  color: #9ca3af;
+  margin-bottom: 1.1rem;
+}
+
+.das-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.das-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.das-label {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.das-input {
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  background: rgba(15, 23, 42, 0.95);
+  color: #e5e7eb;
+  font-size: 0.86rem;
+  padding: 0.45rem 0.55rem;
+}
+
+.das-input::placeholder {
+  color: #6b7280;
+}
+
+.das-input:focus {
+  outline: none;
+  border-color: rgba(45, 212, 191, 0.9);
+  box-shadow: 0 0 0 1px rgba(45, 212, 191, 0.6);
+}
+
+.das-note {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-top: 0.2rem;
+}
+
+.das-actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+}
+
+/* buttons reusing your project style a bit */
+
+.btn {
+  border-radius: 999px;
+  font-size: 0.83rem;
+  padding: 0.45rem 0.95rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.12s ease, box-shadow 0.12s ease,
+    background 0.15s ease, border-color 0.15s ease;
+}
+
+.das-btn-primary {
+  background: #22d3ee;
+  color: #020617;
+  border-color: #22d3ee;
+}
+
+.das-btn-primary:hover {
+  box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.35);
+  transform: translateY(-1px);
+}
+
+.das-btn-secondary {
+  background: rgba(15, 23, 42, 0.8);
+  color: #e5e7eb;
+  border-color: rgba(148, 163, 184, 0.6);
+}
+
+.das-btn-secondary:hover {
+  border-color: rgba(45, 212, 191, 0.7);
+}
+
+/* RIGHT PANEL – RESULTS */
+
+.das-results-panel {
+  background: radial-gradient(circle at top left, #020617, #020617);
+  border-radius: 18px;
+  border: 1px solid rgba(30, 64, 175, 0.7);
+  padding: 1.4rem 1.5rem;
+  box-shadow: 0 22px 60px rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+  display: flex;
+  flex-direction: column;
+}
+
+.das-results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.das-results-title {
+  font-size: 1.02rem;
+  font-weight: 600;
+}
+
+.das-results-subtitle {
+  font-size: 0.83rem;
+  color: #9ca3af;
+}
+
+.das-active-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  justify-content: flex-end;
+}
+
+.das-chip {
+  font-size: 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  padding: 0.22rem 0.6rem;
+  color: #e5e7eb;
+  background: rgba(15, 23, 42, 0.85);
+}
+
+.das-chip-muted {
+  opacity: 0.7;
+}
+
+/* dataset list */
+
+.das-dataset-list {
+  margin-top: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: 0.4rem;
+}
+
+.das-dataset-list::-webkit-scrollbar {
+  width: 6px;
+}
+.das-dataset-list::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.6);
+  border-radius: 999px;
+}
+
+.das-dataset-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 0.9fr);
+  gap: 0.8rem;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background: rgba(15, 23, 42, 0.9);
+  padding: 0.9rem 1rem;
+}
+
+.das-dataset-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.das-dataset-name {
+  font-size: 0.96rem;
+  font-weight: 600;
+}
+
+.das-dataset-type {
+  font-size: 0.82rem;
+  color: #9ca3af;
+}
+
+.das-dataset-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.3rem;
+}
+
+.das-pill {
+  font-size: 0.72rem;
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+}
+
+/* domain-specific colors (simple subtle tints) */
+
+.domain-oceanography {
+  border-color: rgba(59, 130, 246, 0.75);
+  color: #bfdbfe;
+}
+
+.domain-fisheries {
+  border-color: rgba(16, 185, 129, 0.75);
+  color: #a7f3d0;
+}
+
+.domain-edna {
+  border-color: rgba(236, 72, 153, 0.8);
+  color: #f9a8d4;
+}
+
+.domain-molecular {
+  border-color: rgba(139, 92, 246, 0.85);
+  color: #ddd6fe;
+}
+
+.domain-taxonomy {
+  border-color: rgba(248, 250, 252, 0.7);
+  color: #e5e7eb;
+}
+
+.domain-gis {
+  border-color: rgba(52, 211, 153, 0.75);
+  color: #bbf7d0;
+}
+
+/* sensitivity colors */
+
+.sensitivity-low {
+  border-color: rgba(34, 197, 94, 0.9);
+  color: #bbf7d0;
+}
+
+.sensitivity-medium {
+  border-color: rgba(234, 179, 8, 0.9);
+  color: #facc15;
+}
+
+.sensitivity-high {
+  border-color: rgba(248, 113, 113, 0.95);
+  color: #fecaca;
+}
+
+/* tag chips */
+
+.das-tag {
+  font-size: 0.7rem;
+  padding: 0.16rem 0.5rem;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px dashed rgba(148, 163, 184, 0.6);
+  color: #9ca3af;
+}
+
+.das-dataset-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.das-meta-line {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.das-meta-label {
+  color: #e5e7eb;
+  font-weight: 500;
+}
+
+.das-btn-request {
+  margin-top: 0.3rem;
+  background: rgba(45, 212, 191, 0.1);
+  border-color: rgba(45, 212, 191, 0.8);
+  color: #a5f3fc;
+}
+
+.das-btn-request:hover {
+  background: rgba(45, 212, 191, 0.18);
+}
+
+/* Empty state */
+
+.das-empty-state {
+  text-align: center;
+  padding: 1.4rem 0.8rem;
+  color: #9ca3af;
+}
+
+.das-empty-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.das-empty-text {
+  font-size: 0.82rem;
+}
+
+/* LIGHT THEME OVERRIDES (if you use body.light-theme) */
+
+body.light-theme .das-filter-panel,
+body.light-theme .das-results-panel {
+  background: #ffffff;
+  border-color: rgba(148, 163, 184, 0.7);
+  box-shadow: 0 18px 48px rgba(15, 23, 42, 0.12);
+  color: #111827;
+}
+
+body.light-theme .das-panel-subtitle,
+body.light-theme .das-results-subtitle,
+body.light-theme .das-note {
+  color: #6b7280;
+}
+
+body.light-theme .das-input {
+  background: #f9fafb;
+  color: #111827;
+  border-color: rgba(148, 163, 184, 0.7);
+}
+
+body.light-theme .das-chip {
+  background: #eff6ff;
+  color: #1e3a8a;
+  border-color: rgba(59, 130, 246, 0.6);
+}
+
+body.light-theme .das-chip-muted {
+  background: #f3f4f6;
+  color: #4b5563;
+  border-color: rgba(148, 163, 184, 0.6);
+}
+
+body.light-theme .das-dataset-card {
+  background: #f9fafb;
+  border-color: rgba(148, 163, 184, 0.7);
+}
+
+body.light-theme .das-dataset-type,
+body.light-theme .das-meta-line,
+body.light-theme .das-tag {
+  color: #4b5563;
+}
+
+body.light-theme .das-tag {
+  background: #ffffff;
+  border-color: rgba(156, 163, 175, 0.7);
+}
+
+body.light-theme .das-btn-secondary {
+  background: #f9fafb;
+  color: #111827;
+}
+
+body.light-theme .das-btn-request {
+  color: #0f766e;
+}
+  
+@media (max-width: 1024px) {
+  .das-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .das-dataset-card {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: flex-start;
+  }
+
+  .das-dataset-meta {
+    align-items: flex-start;
+  }
+}

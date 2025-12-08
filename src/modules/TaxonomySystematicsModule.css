@@ -1,0 +1,263 @@
+/* =========================
+   OASIS THEME VARIABLES
+   ========================= */
+:root {
+  --bg-main: #020617;
+  --bg-panel: #020b1f;
+  --border-glow: rgba(45, 212, 191, 0.7);
+  --border-soft: rgba(148, 163, 184, 0.25);
+  --cyan: #2dd4bf;
+  --cyan-soft: rgba(45, 212, 191, 0.15);
+  --glass: rgba(2, 11, 31, 0.85);
+  --text-main: #e5e7eb;
+  --text-soft: #9ca3af;
+}
+
+/* =========================
+   WRAPPER
+   ========================= */
+
+.tx-wrapper {
+  padding: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* =========================
+   TOP CARD
+   ========================= */
+
+.tx-top-card {
+  background: linear-gradient(135deg, #020617, #04243a);
+  border-radius: 18px;
+  border: 1px solid var(--border-glow);
+  padding: 1.2rem 1.6rem;
+  box-shadow: 0 0 26px var(--cyan-soft);
+}
+
+.tx-top-card h2 {
+  color: var(--cyan);
+  margin-bottom: 0.4rem;
+  font-size: 1.3rem;
+  letter-spacing: 0.3px;
+}
+
+.tx-top-card p {
+  color: var(--text-main);
+  font-size: 0.92rem;
+}
+
+/* =========================
+   MAIN GRID
+   ========================= */
+
+.tx-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1.4fr 1fr;
+  gap: 1.4rem;
+}
+
+.tx-block {
+  background: var(--glass);
+  border-radius: 18px;
+  border: 1px solid var(--border-soft);
+  padding: 1.2rem;
+  box-shadow: inset 0 0 22px #000;
+}
+
+.tx-block h3 {
+  color: var(--cyan);
+  font-size: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+/* =========================
+   TEXT + LIST
+   ========================= */
+
+.tx-text {
+  font-size: 0.88rem;
+  color: var(--text-main);
+  margin-bottom: 1rem;
+}
+
+.tx-list {
+  font-size: 0.85rem;
+  color: var(--text-main);
+  padding-left: 1.2rem;
+}
+
+.tx-list li {
+  margin-bottom: 0.45rem;
+}
+
+/* =========================
+   TOOL CARDS
+   ========================= */
+
+.tx-tool-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.tx-tool-card {
+  background: linear-gradient(
+    135deg,
+    var(--bg-main),
+    var(--bg-panel)
+  );
+  border-radius: 16px;
+  padding: 0.9rem;
+  border: 1px solid var(--border-glow);
+  box-shadow: 0 0 18px var(--cyan-soft);
+  font-size: 0.83rem;
+  color: var(--text-main);
+}
+
+.tx-tool-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.45rem;
+}
+
+.tx-tool-icon {
+  font-size: 1.15rem;
+}
+
+.tx-tool-title {
+  font-weight: 600;
+  color: var(--cyan);
+}
+
+.tx-tool-card p {
+  margin-bottom: 0.45rem;
+  color: var(--text-main);
+}
+
+.tx-tool-card ul {
+  padding-left: 1.1rem;
+}
+
+.tx-tool-card li {
+  margin-bottom: 0.3rem;
+  color: var(--text-soft);
+}
+
+/* =========================
+   WORKFLOW
+   ========================= */
+
+.tx-steps {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 1rem;
+  font-size: 0.83rem;
+  color: var(--text-main);
+}
+
+.tx-steps li {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+
+.tx-step-badge {
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, #2dd4bf, #0f766e);
+  color: #020617;
+  font-size: 0.78rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+  box-shadow: 0 0 12px var(--cyan);
+}
+
+.tx-steps p {
+  margin-top: 0.1rem;
+  color: var(--text-soft);
+}
+
+/* =========================
+   STATUS
+   ========================= */
+
+.tx-status-heading {
+  margin-top: 1rem;
+}
+
+.tx-status {
+  font-size: 0.85rem;
+  color: var(--text-main);
+  margin-bottom: 0.9rem;
+}
+
+.tx-status-dot {
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 999px;
+  margin-right: 0.35rem;
+  background: radial-gradient(circle, #4ade80, #16a34a);
+  box-shadow: 0 0 10px #4ade80;
+}
+
+/* =========================
+   BUTTONS (OASIS STYLE)
+   ========================= */
+
+.tx-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tx-btn {
+  padding: 0.6rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: 1px solid var(--border-glow);
+  background: transparent;
+  color: var(--text-main);
+  transition: all 0.2s ease;
+}
+
+.tx-btn:hover {
+  background: rgba(45, 212, 191, 0.08);
+  transform: translateY(-1px);
+  box-shadow: 0 0 14px var(--cyan-soft);
+}
+
+.tx-btn-primary {
+  background: linear-gradient(135deg, #2dd4bf, #0ea5e9);
+  color: #020617;
+  border: none;
+  font-weight: 700;
+  box-shadow: 0 0 22px rgba(45, 212, 191, 0.7);
+}
+
+.tx-btn-outline {
+  border-style: solid;
+}
+
+.tx-btn-ghost {
+  border-style: dashed;
+  color: var(--text-soft);
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 1180px) {
+  .tx-grid {
+    grid-template-columns: 1fr;
+  }
+}

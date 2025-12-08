@@ -1,0 +1,91 @@
+/* src/modules/InfluenceEngineModule.css */
+
+.inf-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.4rem;
+  margin-top: 1.4rem;
+}
+
+.inf-panel {
+  background: radial-gradient(circle at top left, #0f172a, #020617);
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  padding: 1.1rem 1.2rem;
+}
+
+.inf-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e5e7eb;
+  margin-bottom: 0.3rem;
+}
+
+.inf-text {
+  font-size: 0.82rem;
+  color: #9ca3af;
+  margin-bottom: 0.8rem;
+}
+
+.inf-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 0.8rem;
+}
+
+.inf-card {
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: rgba(15, 23, 42, 0.9);
+  padding: 0.6rem 0.7rem;
+  font-size: 0.8rem;
+  color: #cbd5f5;
+}
+
+.inf-card h4 {
+  font-size: 0.88rem;
+  margin-bottom: 0.25rem;
+  color: #e5e7eb;
+}
+
+.inf-card ul {
+  padding-left: 1rem;
+  margin: 0;
+}
+
+.inf-code {
+  font-family: "JetBrains Mono", Consolas, monospace;
+  font-size: 0.76rem;
+  color: #a5f3fc;
+  margin-bottom: 0.2rem;
+}
+
+.inf-scenario {
+  display: grid;
+  gap: 0.7rem;
+  margin-bottom: 0.6rem;
+}
+
+.inf-scenario-field label {
+  display: block;
+  font-size: 0.8rem;
+  color: #e5e7eb;
+}
+
+.inf-scenario-field input[type="range"] {
+  width: 100%;
+}
+
+.inf-scenario-field span {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.inf-result {
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: rgba(15, 23, 42, 0.9);
+  padding: 0.6rem 0.7rem;
+  font-size: 0.8rem;
+  color: #e5e7eb;
+}

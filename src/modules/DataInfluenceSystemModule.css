@@ -1,0 +1,58 @@
+/* src/modules/DataInfluenceSystemModule.css */
+
+.dis-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.4rem;
+  margin-top: 1.4rem;
+}
+
+.dis-panel {
+  background: radial-gradient(circle at top left, #0f172a, #020617);
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  padding: 1.1rem 1.2rem;
+}
+
+.dis-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e5e7eb;
+  margin-bottom: 0.3rem;
+}
+
+.dis-text {
+  font-size: 0.82rem;
+  color: #9ca3af;
+  margin-bottom: 0.7rem;
+}
+
+.dis-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  color: #e5e7eb;
+}
+
+.dis-table th,
+.dis-table td {
+  padding: 0.4rem 0.35rem;
+  border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+}
+
+.dis-table th {
+  text-align: left;
+  font-size: 0.78rem;
+  color: #9ca3af;
+}
+
+.dis-table tr:last-child td {
+  border-bottom: none;
+}
+
+.dis-list {
+  font-size: 0.8rem;
+  color: #e5e7eb;
+  padding-left: 1rem;
+  margin: 0;
+}

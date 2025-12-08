@@ -1,0 +1,248 @@
+/* src/modules/VisualizationTool.css
+   Cleaned & updated: grid-based layout, map larger, filters right,
+   date-input styling, responsive rules.
+*/
+
+/* === Layout: grid-based === */
+.viz-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;   /* main (map) + filters column (fixed) */
+  grid-template-rows: auto 1fr;       /* header/content then metrics */
+  grid-template-areas:
+    "main right"
+    "bottom bottom";
+  gap: 20px;
+  align-items: stretch;               /* changed: allow columns to match tallest child */
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.8rem 0;
+  margin-top: 1.4rem;
+}
+
+/* Panels base style */
+.viz-panel {
+  background: radial-gradient(circle at top left, #0f172a, #020617);
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  padding: 0.4rem 1.2rem 1.1rem;
+  box-sizing: border-box;
+  display: flex;            /* added: allow children to stretch vertically */
+  flex-direction: column;   /* added: stack panel content vertically */
+}
+
+/* Grid placement */
+.viz-layout .viz-panel-main { grid-area: main; display: flex; flex-direction: column; min-height: 0; }
+.viz-layout .viz-panel-left { grid-area: right; display: flex; flex-direction: column; min-height: 0; }
+.viz-layout .viz-panel-bottom { grid-area: bottom; }
+
+/* Titles / text */
+.viz-panel-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e5e7eb;
+  margin-bottom: 0.35rem;
+}
+
+.viz-panel-text {
+  font-size: 0.86rem;
+  color: #9ca3af;
+  margin-bottom: 0.8rem;
+}
+
+/* Form groups */
+.viz-form-group {
+  margin-bottom: 0.75rem;
+}
+
+.viz-form-group label {
+  display: block;
+  font-size: 0.88rem;
+  color: #cbd5e1;
+  margin-bottom: 0.35rem;
+}
+
+/* Selects */
+.viz-form-group select {
+  width: 100%;
+  font-size: 0.92rem;
+  padding: 0.48rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(15, 23, 42, 0.85);
+  color: #e5e7eb;
+  box-sizing: border-box;
+}
+
+/* Tags */
+.viz-tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.2rem;
+}
+
+.viz-tag {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(45, 212, 191, 0.5);
+  background: rgba(15, 23, 42, 0.9);
+  color: #a5f3fc;
+  cursor: pointer;
+}
+
+.viz-tag:hover {
+  background: rgba(45, 212, 191, 0.12);
+}
+
+.viz-hint {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.72rem;
+  color: #6b7280;
+}
+
+/* Apply button */
+.viz-apply-btn {
+  margin-top: 0.6rem;
+  width: 100%;
+  padding: 0.6rem 0.9rem;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #2dd4bf, #38bdf8);
+  color: #020617;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 0 14px rgba(45, 212, 191, 0.5);
+}
+
+/* Map / spatial view header */
+.viz-panel-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 0.8rem;
+}
+
+/* (Layer buttons removed in JS as requested) */
+.viz-layer-toggle { display: none; }
+
+/* Map placeholder
+   NOTE: changed to be flexible (no fixed height) so it stretches with the right column.
+*/
+.viz-map-placeholder {
+  position: relative;
+  min-height: 320px;          /* fallback minimum height */
+  flex: 1 1 auto;             /* allows growth to match sibling height */
+  border-radius: 16px;
+  border: 1px dashed rgba(148, 163, 184, 0.25);
+  background: linear-gradient(180deg, rgba(2,6,23,0.6), rgba(2,6,23,0.95));
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  color: #9ca3af;
+  font-size: 0.92rem;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 18px;
+}
+
+/* grid overlay */
+.viz-map-grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(30, 64, 175, 0.18) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(30, 64, 175, 0.18) 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 0.45;
+  height: 100%;
+  width: 100%;
+}
+
+/* overlay text */
+.viz-map-placeholder p,
+.viz-map-placeholder span { position: relative; z-index: 1; }
+.viz-map-placeholder span { font-size: 0.82rem; color: #64748b; }
+
+/* Metrics grid */
+.viz-metrics-grid {
+  margin-top: 0.7rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.9rem;
+}
+
+.viz-metric-card {
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  padding: 0.7rem 0.8rem;
+  background: rgba(15, 23, 42, 0.9);
+}
+
+.viz-metric-label {
+  font-size: 0.78rem;
+  color: #9ca3af;
+  margin-bottom: 0.2rem;
+}
+
+.viz-metric-value {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #e5e7eb;
+}
+
+.viz-metric-note {
+  font-size: 0.74rem;
+  color: #6b7280;
+}
+
+/* Date input (custom dd/mm/yyyy string inputs) */
+.date-input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #e2e8f0;
+  font-size: 0.95rem;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.date-input::placeholder { color: rgba(226,232,240,0.45); }
+
+.date-input:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 6px rgba(56, 189, 248, 0.28);
+}
+
+/* Responsive - stack on small screens */
+@media (max-width: 1100px) {
+  .viz-layout {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "main"
+      "right"
+      "bottom";
+  }
+
+  .viz-map-placeholder { min-height: 320px; }
+}
+
+/* Small screens */
+@media (max-width: 640px) {
+  .viz-map-placeholder { min-height: 240px; }
+  .viz-apply-btn { padding: 0.5rem 0.6rem; font-size: 0.9rem; }
+}
+
+/* Safety overrides to avoid older float/flex interference */
+.viz-layout .viz-panel-left,
+.viz-layout .viz-panel-main,
+.viz-layout .viz-panel-bottom {
+  float: none !important;
+  display: block;
+}

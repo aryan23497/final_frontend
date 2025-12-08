@@ -1,0 +1,211 @@
+.mb-wrapper {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+}
+
+/* === TOP SUMMARY CARD === */
+
+.mb-top-card {
+  background: linear-gradient(135deg, #022c22, #020617);
+  border-radius: 18px;
+  border: 1px solid rgba(45, 212, 191, 0.8);
+  padding: 1.1rem 1.4rem;
+  box-shadow: 0 0 24px rgba(45, 212, 191, 0.4);
+}
+
+.mb-top-card h2 {
+  color: #5eead4;
+  margin-bottom: 0.35rem;
+  font-size: 1.25rem;
+}
+
+.mb-top-card p {
+  color: #d1d5db;
+  font-size: 0.9rem;
+}
+
+/* === GRID LAYOUT === */
+
+.mb-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  gap: 1.3rem;
+}
+
+/* === BLOCKS === */
+
+.mb-block {
+  background: radial-gradient(circle at top, #020617, #000);
+  border-radius: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  padding: 1.1rem;
+  box-shadow: inset 0 0 16px rgba(15, 23, 42, 0.9);
+}
+
+.mb-block h3 {
+  color: #e5e7eb;
+  font-size: 0.95rem;
+  margin-bottom: 0.6rem;
+}
+
+.mb-text {
+  font-size: 0.86rem;
+  color: #cbd5f5;
+  margin-bottom: 0.9rem;
+}
+
+/* === PILL BUTTONS (TOPICS) === */
+
+.mb-pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.mb-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(45, 212, 191, 0.7);
+  background: radial-gradient(circle at top, #020617, #000);
+  color: #f9fafb;
+  font-size: 0.84rem;
+  cursor: pointer;
+  box-shadow: 0 0 18px rgba(45, 212, 191, 0.4);
+  transition: transform 0.18s ease, box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.mb-pill-icon {
+  font-size: 1rem;
+}
+
+.mb-pill:hover {
+  transform: translateY(-1px);
+  background: radial-gradient(circle at top, #022c22, #020617 60%);
+  box-shadow: 0 0 24px rgba(45, 212, 191, 0.8);
+}
+
+/* === LIST === */
+
+.mb-list {
+  font-size: 0.84rem;
+  color: #e5e7eb;
+  padding-left: 1.1rem;
+  margin-bottom: 0.8rem;
+}
+
+.mb-list li {
+  margin-bottom: 0.3rem;
+}
+
+/* === METRICS === */
+
+.mb-metric {
+  display: grid;
+  grid-template-columns: 1.2fr auto;
+  grid-template-rows: auto auto;
+  column-gap: 0.4rem;
+  row-gap: 0.15rem;
+  align-items: center;
+  background: rgba(2, 6, 23, 0.85);
+  border-radius: 12px;
+  border: 1px dashed rgba(148, 163, 184, 0.6);
+  padding: 0.6rem 0.75rem;
+  margin-bottom: 0.45rem;
+  font-size: 0.82rem;
+  color: #cbd5f5;
+}
+
+.mb-metric span:first-child {
+  grid-column: 1 / 2;
+}
+
+.mb-metric strong {
+  grid-column: 2 / 3;
+  justify-self: end;
+  color: #5eead4;
+  font-size: 0.95rem;
+}
+
+.mb-chip {
+  grid-column: 1 / -1;
+  font-size: 0.74rem;
+  color: #9ca3af;
+}
+
+.mb-note {
+  font-size: 0.74rem;
+  color: #6b7280;
+  margin-top: 0.5rem;
+}
+
+/* === ACTION BUTTONS & STATUS === */
+
+.mb-btn {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  margin-bottom: 0.45rem;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: transparent;
+  color: #e5e7eb;
+  transition: background 0.18s ease, transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.mb-btn:hover {
+  background: rgba(15, 23, 42, 0.85);
+  transform: translateY(-1px);
+}
+
+.mb-btn-primary {
+  background: linear-gradient(135deg, #2dd4bf, #38bdf8);
+  color: #020617;
+  border: none;
+  font-weight: 600;
+  box-shadow: 0 0 20px rgba(45, 212, 191, 0.7);
+}
+
+.mb-btn-outline {
+  /* uses default border & background */
+}
+
+.mb-btn-ghost {
+  border-style: dashed;
+  color: #9ca3af;
+}
+
+.mb-status-heading {
+  margin-top: 0.9rem;
+}
+
+.mb-status {
+  font-size: 0.82rem;
+  color: #d1d5db;
+}
+
+.mb-status-dot {
+  display: inline-block;
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 999px;
+  margin-right: 0.3rem;
+  background: radial-gradient(circle, #4ade80, #16a34a);
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.9);
+}
+
+/* === RESPONSIVE === */
+
+@media (max-width: 1100px) {
+  .mb-grid {
+    grid-template-columns: 1fr;
+  }
+}

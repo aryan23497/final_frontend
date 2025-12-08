@@ -1,0 +1,112 @@
+/* src/modules/VisualizationParametersPanel.css */
+
+.vpp-panel {
+  width: 100%;
+  max-width: 360px;
+  background: linear-gradient(180deg, #0b1220 0%, #020617 100%);
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.06);
+  padding: 16px;
+  box-sizing: border-box;
+  color: #e6eef6;
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+}
+
+.vpp-title {
+  margin: 0 0 10px 0;
+  font-size: 1.04rem;
+  font-weight: 700;
+  color: #f4fbff;
+}
+
+.vpp-label {
+  display: block;
+  font-size: 0.85rem;
+  color: #c7d2e6;
+  margin-bottom: 6px;
+}
+
+.vpp-select {
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.10);
+  background: rgba(10, 16, 28, 0.8);
+  color: #e6eef6;
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.vpp-y-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.vpp-add {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(45, 212, 191, 0.14);
+  background: rgba(45, 212, 191, 0.06);
+  color: #9eeedf;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.vpp-y-rows {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.vpp-y-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.vpp-remove {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.02);
+  color: #ffd6d6;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.vpp-preview {
+  margin-top: 12px;
+  background: rgba(3, 7, 18, 0.6);
+  border-radius: 8px;
+  padding: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.04);
+  color: #dbeafe;
+}
+
+.vpp-preview-label {
+  font-size: 0.78rem;
+  color: #9fb0ca;
+  margin-bottom: 6px;
+}
+
+.vpp-json {
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+  font-size: 0.78rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #e6f3ff;
+}
+
+@media (max-width: 800px) {
+  .vpp-panel { max-width: 100%; padding: 12px; }
+  .vpp-remove { width: 34px; height: 34px; }
+}

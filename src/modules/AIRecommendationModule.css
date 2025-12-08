@@ -1,0 +1,187 @@
+.harbor-layout {
+  width: 100%;
+  max-width: 1100px;
+  margin: auto;
+  padding: 1rem 0 2rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+/* HEADER */
+
+.harbor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 18px;
+  border: 1px solid rgba(30, 64, 175, 0.6);
+  padding: 1rem 1.2rem;
+  background: radial-gradient(circle at top left, #020617, #020617);
+  box-shadow: 0 18px 48px rgba(15, 23, 42, 0.9);
+}
+
+.harbor-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.harbor-subtitle {
+  font-size: 0.82rem;
+  color: #9ca3af;
+}
+
+/* BUTTONS */
+
+.btn {
+  border-radius: 999px;
+  font-size: 0.82rem;
+  padding: 0.45rem 0.95rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-weight: 600;
+}
+
+.harbor-btn-primary,
+.harbor-send-btn {
+  background: #22d3ee;
+  color: #020617;
+}
+
+.harbor-btn-secondary {
+  background: rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+}
+
+.harbor-header-actions {
+  display: flex;
+  gap: 0.6rem;
+}
+
+/* CHAT PANEL FULL WIDTH */
+
+.harbor-panel {
+  border-radius: 18px;
+  border: 1px solid rgba(30, 64, 175, 0.6);
+  padding: 1.2rem;
+  background: radial-gradient(circle at top left, #020617, #020617);
+  box-shadow: 0 22px 60px rgba(15, 23, 42, 0.9);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.harbor-chat-panel-full {
+  min-height: 520px;
+}
+
+/* CHAT WINDOW */
+
+.harbor-chat-window {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding-right: 0.4rem;
+}
+
+.harbor-chat-window::-webkit-scrollbar {
+  width: 6px;
+}
+
+.harbor-chat-window::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.6);
+  border-radius: 999px;
+}
+
+/* CHAT BUBBLES */
+
+.harbor-bubble-row {
+  display: flex;
+}
+
+.harbor-bubble-row-user {
+  justify-content: flex-end;
+}
+
+.harbor-bubble-row-assistant {
+  justify-content: flex-start;
+}
+
+.harbor-bubble {
+  max-width: 80%;
+  border-radius: 16px;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.84rem;
+  border: 1px solid transparent;
+}
+
+.harbor-bubble-user {
+  background: rgba(37, 99, 235, 0.3);
+  border-color: rgba(59, 130, 246, 0.7);
+}
+
+.harbor-bubble-assistant {
+  background: rgba(15, 23, 42, 0.96);
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+.harbor-bubble-author {
+  display: block;
+  font-size: 0.73rem;
+  color: #a5f3fc;
+  margin-bottom: 0.15rem;
+}
+
+.harbor-bubble-text {
+  white-space: pre-wrap;
+}
+
+/* COPY / EDIT BAR */
+
+.harbor-bubble-footer {
+  margin-top: 0.45rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.4rem;
+}
+
+.harbor-icon-btn {
+  font-size: 0.72rem;
+  padding: 0.22rem 0.55rem;
+  border-radius: 6px;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  background: rgba(15, 23, 42, 0.8);
+  color: #e5e7eb;
+  cursor: pointer;
+}
+
+.harbor-icon-btn:hover {
+  color: #22d3ee;
+  border-color: #22d3ee;
+}
+
+/* INPUT BAR */
+
+.harbor-input-bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.5rem;
+  margin-top: 0.7rem;
+}
+
+.harbor-input {
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: rgba(15, 23, 42, 0.96);
+  color: #e5e7eb;
+  padding: 0.5rem 0.6rem;
+  resize: none;
+}
+
+.harbor-input::placeholder {
+  color: #6b7280;
+}

@@ -1,0 +1,209 @@
+.du-wrapper {
+  margin-top: 1.5rem;
+  padding: 1.6rem 1.8rem;
+  background: radial-gradient(circle at top left, #020617, #020617 55%);
+  border-radius: 22px;
+  border: 1px solid rgba(45, 212, 191, 0.35);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+}
+
+/* header text */
+
+.du-header {
+  max-width: 720px;
+  margin-bottom: 1.2rem;
+}
+
+.du-eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #9ca3af;
+  margin-bottom: 0.3rem;
+}
+
+.du-title {
+  font-size: 1.4rem;
+  margin: 0 0 0.4rem;
+}
+
+.du-text {
+  font-size: 0.9rem;
+  color: #9ca3af;
+}
+
+/* card */
+
+.du-card {
+  margin-top: 0.6rem;
+  padding: 1.2rem 1.3rem 1.3rem;
+  border-radius: 18px;
+  background: radial-gradient(circle at top, #020617, #020617 70%);
+  border: 1px solid rgba(148, 163, 184, 0.5);
+}
+
+/* form fields */
+
+.du-field {
+  margin-bottom: 0.85rem;
+}
+
+.du-field label {
+  display: block;
+  font-size: 0.8rem;
+  color: #cbd5f5;
+  margin-bottom: 0.2rem;
+}
+
+.du-field input,
+.du-field select,
+.du-field textarea {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  background: rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+  font-size: 0.85rem;
+  outline: none;
+}
+
+.du-field textarea {
+  resize: vertical;
+}
+
+.du-field input:focus,
+.du-field select:focus,
+.du-field textarea:focus {
+  border-color: #2dd4bf;
+  box-shadow: 0 0 0 1px rgba(45, 212, 191, 0.4);
+}
+
+/* dropzone */
+
+.du-dropzone {
+  margin: 1rem 0 0.75rem;
+  padding: 1rem 0.9rem;
+  border-radius: 16px;
+  border: 1px dashed rgba(148, 163, 184, 0.7);
+  background: rgba(15, 23, 42, 0.9);
+  text-align: center;
+  cursor: pointer;
+  transition: 0.16s ease;
+}
+
+.du-dropzone:hover {
+  border-color: #2dd4bf;
+  box-shadow: 0 0 14px rgba(45, 212, 191, 0.6);
+}
+
+.du-drop-main {
+  font-size: 0.9rem;
+  margin-bottom: 0.15rem;
+}
+
+.du-drop-icon {
+  margin-right: 0.35rem;
+}
+
+.du-drop-sub {
+  font-size: 0.8rem;
+  color: #a5b4fc;
+  margin-bottom: 0.1rem;
+}
+
+.du-drop-hint {
+  font-size: 0.72rem;
+  color: #9ca3af;
+}
+
+.du-browse {
+  color: #2dd4bf;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* file list */
+
+.du-files {
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  background: rgba(15, 23, 42, 0.85);
+  margin-bottom: 0.9rem;
+}
+
+.du-files-header {
+  padding: 0.4rem 0.7rem;
+  border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+  font-size: 0.78rem;
+  color: #9ca3af;
+}
+
+.du-files ul {
+  list-style: none;
+  margin: 0;
+  padding: 0.35rem 0.4rem;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.du-files li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  padding: 0.22rem 0.4rem;
+}
+
+.du-file-name {
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.du-file-remove {
+  border: none;
+  background: transparent;
+  color: #fca5a5;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+/* actions */
+
+.du-actions {
+  margin-top: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.du-btn-primary {
+  background: #2dd4bf;
+  color: #020617;
+  border: none;
+  box-shadow: 0 0 12px rgba(45, 212, 191, 0.7);
+}
+
+.du-btn-primary:hover {
+  background: #22c1ac;
+}
+
+.du-small {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+/* responsive */
+
+@media (max-width: 768px) {
+  .du-wrapper {
+    padding: 1.3rem 1.1rem;
+  }
+
+  .du-card {
+    padding: 1rem 1.05rem;
+  }
+}

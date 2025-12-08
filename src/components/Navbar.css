@@ -1,0 +1,367 @@
+/* ============================= */
+/* LAYOUT */
+/* ============================= */
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar-left {
+  flex: 1;
+}
+
+.navbar-links {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  gap: 1.4rem;
+}
+
+.navbar-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+/* ============================= */
+/* LOGIN BUTTON */
+/* ============================= */
+
+.nav-login-btn {
+  border-radius: 999px;
+  padding: 0.45rem 1.4rem;
+  border: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, #22c55e, #22d3ee);
+  color: #020617;
+  box-shadow: 0 0 12px rgba(34, 211, 238, 0.4);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+.nav-login-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.7);
+  filter: brightness(1.05);
+}
+
+/* ============================= */
+/* PREMIUM PROFILE ICON */
+/* ============================= */
+
+.profile-wrapper {
+  position: relative;
+}
+
+.profile-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    rgba(45, 212, 191, 0.95),
+    rgba(14, 165, 233, 0.9)
+  );
+  color: #020617;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 0 8px rgba(45, 212, 191, 0.7),
+    0 0 18px rgba(14, 165, 233, 0.5),
+    inset 0 0 8px rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(6px);
+  transition: all 0.3s ease;
+}
+
+.profile-icon:hover {
+  transform: scale(1.08);
+  box-shadow:
+    0 0 12px rgba(45, 212, 191, 0.9),
+    0 0 28px rgba(14, 165, 233, 0.7),
+    inset 0 0 14px rgba(255, 255, 255, 0.35);
+}
+
+/* ============================= */
+/* DROPDOWN */
+/* ============================= */
+
+.profile-dropdown {
+  position: absolute;
+  top: 54px;
+  right: 0;
+  width: 230px;
+  background: rgba(2, 6, 23, 0.92);
+  border-radius: 14px;
+  border: 1px solid rgba(45, 212, 191, 0.45);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.65),
+    0 0 18px rgba(45, 212, 191, 0.35);
+  padding: 0.8rem;
+  z-index: 999;
+  animation: fadeInScale 0.25s ease;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.profile-header {
+  padding-bottom: 0.6rem;
+  margin-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.profile-email {
+  font-size: 0.82rem;
+  color: #e5e7eb;
+  font-weight: 600;
+}
+
+.profile-role {
+  font-size: 0.72rem;
+  color: #2dd4bf;
+  text-transform: uppercase;
+}
+
+/* menu items */
+.profile-item {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: #e5e7eb;
+  padding: 0.55rem 0.6rem;
+  font-size: 0.82rem;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.profile-item:hover {
+  background: rgba(45, 212, 191, 0.15);
+  color: #2dd4bf;
+}
+
+.profile-divider {
+  height: 1px;
+  background: rgba(148, 163, 184, 0.25);
+  margin: 0.5rem 0;
+}
+
+/* logout highlight */
+.profile-item.logout {
+  color: #f87171;
+}
+
+.profile-item.logout:hover {
+  background: rgba(248, 113, 113, 0.15);
+  color: #fca5a5;
+}
+/* ============================= */
+/* LAYOUT */
+/* ============================= */
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 3rem;
+  background: var(--oasis-navbar-bg);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.navbar-left {
+  flex: 1;
+}
+
+.navbar-spacer {
+  flex: 1;
+}
+
+.navbar-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1.4rem;
+}
+
+/* Logo */
+.logo {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  font-size: 1.05rem;
+  color: var(--oasis-text);
+}
+
+/* ============================= */
+/* NAV LINKS */
+/* ============================= */
+
+.nav-link {
+  color: var(--oasis-text);
+  text-decoration: none;
+  font-size: 0.85rem;
+  padding: 0.4rem 1.1rem;
+  border-radius: 999px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.nav-link:hover {
+  background: rgba(148, 163, 184, 0.18);
+}
+
+.nav-link-active {
+  background: rgba(34, 211, 238, 0.25);
+  color: #22d3ee;
+}
+
+/* ============================= */
+/* LOGIN BUTTON */
+/* ============================= */
+
+.nav-login-btn {
+  border-radius: 999px;
+  padding: 0.45rem 1.4rem;
+  border: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, #22c55e, #22d3ee);
+  color: #020617;
+  box-shadow: 0 0 12px rgba(34, 211, 238, 0.4);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+.nav-login-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.7);
+  filter: brightness(1.05);
+}
+
+/* ============================= */
+/* PREMIUM PROFILE ICON */
+/* ============================= */
+
+.profile-wrapper {
+  position: relative;
+}
+
+.profile-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    rgba(45, 212, 191, 0.95),
+    rgba(14, 165, 233, 0.9)
+  );
+  color: #020617;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 0 8px rgba(45, 212, 191, 0.7),
+    0 0 18px rgba(14, 165, 233, 0.5),
+    inset 0 0 8px rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(6px);
+  transition: all 0.3s ease;
+}
+
+.profile-icon:hover {
+  transform: scale(1.08);
+  box-shadow:
+    0 0 12px rgba(45, 212, 191, 0.9),
+    0 0 28px rgba(14, 165, 233, 0.7),
+    inset 0 0 14px rgba(255, 255, 255, 0.35);
+}
+
+/* ============================= */
+/* DROPDOWN */
+/* ============================= */
+
+.profile-dropdown {
+  position: absolute;
+  top: 54px;
+  right: 0;
+  width: 230px;
+  background: var(--oasis-panel-bg);
+  border-radius: 14px;
+  border: 1px solid var(--oasis-panel-border);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.65),
+    0 0 18px rgba(45, 212, 191, 0.35);
+  padding: 0.8rem;
+  z-index: 999;
+}
+
+.profile-header {
+  padding-bottom: 0.6rem;
+  margin-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.profile-email {
+  font-size: 0.82rem;
+  color: var(--oasis-text);
+  font-weight: 600;
+}
+
+.profile-role {
+  font-size: 0.72rem;
+  color: #2dd4bf;
+  text-transform: uppercase;
+}
+
+.profile-item {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--oasis-text);
+  padding: 0.55rem 0.6rem;
+  font-size: 0.82rem;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.profile-item:hover {
+  background: rgba(45, 212, 191, 0.15);
+  color: #2dd4bf;
+}
+
+.profile-divider {
+  height: 1px;
+  background: rgba(148, 163, 184, 0.25);
+  margin: 0.5rem 0;
+}
+
+.profile-item.logout {
+  color: #f87171;
+}
+
+.profile-item.logout:hover {
+  background: rgba(248, 113, 113, 0.15);
+  color: #fca5a5;
+}

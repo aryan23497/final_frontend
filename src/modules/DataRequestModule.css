@@ -1,0 +1,855 @@
+/* src/modules/DataRequestModule.css */
+
+/* ========= MAIN LAYOUT ========= */
+
+.drq-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(0, 1.6fr);
+  gap: 1.6rem;
+  margin-top: 1.4rem;
+}
+
+/* ========= LEFT PANEL – FILTERS ========= */
+
+.drq-filter-panel {
+  background: radial-gradient(circle at top left, #020617, #020617);
+  border-radius: 18px;
+  border: 1px solid rgba(30, 64, 175, 0.7);
+  padding: 1.4rem 1.5rem;
+  box-shadow: 0 22px 60px rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+}
+
+.drq-panel-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.drq-panel-subtitle {
+  font-size: 0.86rem;
+  color: #9ca3af;
+  margin-bottom: 1.1rem;
+}
+
+.drq-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.drq-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.drq-label {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.drq-input {
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  background: rgba(15, 23, 42, 0.95);
+  color: #e5e7eb;
+  font-size: 0.86rem;
+  padding: 0.45rem 0.55rem;
+}
+
+.drq-input::placeholder {
+  color: #6b7280;
+}
+
+.drq-input:focus {
+  outline: none;
+  border-color: rgba(45, 212, 191, 0.9);
+  box-shadow: 0 0 0 1px rgba(45, 212, 191, 0.6);
+}
+
+.drq-note {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-top: 0.2rem;
+}
+
+.drq-actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+}
+
+/* buttons – same pattern as DAS */
+
+.btn {
+  border-radius: 999px;
+  font-size: 0.83rem;
+  padding: 0.45rem 0.95rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.12s ease, box-shadow 0.12s ease,
+    background 0.15s ease, border-color 0.15s ease;
+}
+
+.drq-btn-primary {
+  background: #22d3ee;
+  color: #020617;
+  border-color: #22d3ee;
+}
+
+.drq-btn-primary:hover {
+  box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.35);
+  transform: translateY(-1px);
+}
+
+.drq-btn-secondary {
+  background: rgba(15, 23, 42, 0.8);
+  color: #e5e7eb;
+  border-color: rgba(148, 163, 184, 0.6);
+}
+
+.drq-btn-secondary:hover {
+  border-color: rgba(45, 212, 191, 0.7);
+}
+
+/* ========= RIGHT PANEL – RESULTS ========= */
+
+.drq-results-panel {
+  background: radial-gradient(circle at top left, #020617, #020617);
+  border-radius: 18px;
+  border: 1px solid rgba(30, 64, 175, 0.7);
+  padding: 1.4rem 1.5rem;
+  box-shadow: 0 22px 60px rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+  display: flex;
+  flex-direction: column;
+}
+
+.drq-results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.drq-results-title {
+  font-size: 1.02rem;
+  font-weight: 600;
+}
+
+.drq-results-subtitle {
+  font-size: 0.83rem;
+  color: #9ca3af;
+}
+
+.drq-active-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  justify-content: flex-end;
+}
+
+.drq-chip {
+  font-size: 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  padding: 0.22rem 0.6rem;
+  color: #e5e7eb;
+  background: rgba(15, 23, 42, 0.85);
+}
+
+.drq-chip-muted {
+  opacity: 0.7;
+}
+
+/* ========= SCROLLABLE DATASET LIST ========= */
+
+.drq-dataset-scroll {
+  margin-top: 0.4rem;
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: 0.4rem;
+}
+
+.drq-dataset-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.drq-dataset-scroll::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.6);
+  border-radius: 999px;
+}
+
+.drq-dataset-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.drq-dataset-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 0.9fr);
+  gap: 0.8rem;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background: rgba(15, 23, 42, 0.9);
+  padding: 0.9rem 1rem;
+}
+
+.drq-dataset-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.drq-dataset-name {
+  font-size: 0.96rem;
+  font-weight: 600;
+}
+
+.drq-dataset-type {
+  font-size: 0.82rem;
+  color: #9ca3af;
+}
+
+.drq-dataset-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.3rem;
+}
+
+.drq-pill {
+  font-size: 0.72rem;
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+}
+
+/* domain colours (same style as DAS, without sensitivity) */
+
+.domain-oceanography {
+  border-color: rgba(59, 130, 246, 0.75);
+  color: #bfdbfe;
+}
+
+.domain-fisheries {
+  border-color: rgba(16, 185, 129, 0.75);
+  color: #a7f3d0;
+}
+
+.domain-edna {
+  border-color: rgba(236, 72, 153, 0.8);
+  color: #f9a8d4;
+}
+
+.domain-molecular {
+  border-color: rgba(139, 92, 246, 0.85);
+  color: #ddd6fe;
+}
+
+.domain-taxonomy {
+  border-color: rgba(248, 250, 252, 0.7);
+  color: #e5e7eb;
+}
+
+/* tag chips */
+
+.drq-tag {
+  font-size: 0.7rem;
+  padding: 0.16rem 0.5rem;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px dashed rgba(148, 163, 184, 0.6);
+  color: #9ca3af;
+}
+
+/* dataset meta + button */
+
+.drq-dataset-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.drq-meta-line {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.drq-meta-label {
+  color: #e5e7eb;
+  font-weight: 500;
+}
+
+.drq-btn-request {
+  margin-top: 0.3rem;
+  background: rgba(45, 212, 191, 0.1);
+  border-color: rgba(45, 212, 191, 0.8);
+  color: #a5f3fc;
+}
+
+.drq-btn-request:hover {
+  background: rgba(45, 212, 191, 0.18);
+}
+
+/* ========= EMPTY STATE ========= */
+
+.drq-empty-state {
+  text-align: center;
+  padding: 1.4rem 0.8rem;
+  color: #9ca3af;
+}
+
+.drq-empty-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.drq-empty-text {
+  font-size: 0.82rem;
+}
+
+/* ========= REQUESTED DATASETS BOX (BOTTOM) ========= */
+
+.drq-requested-panel {
+  margin-top: 1rem;
+}
+
+.drq-requested-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.drq-requested-empty {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.drq-requested-box {
+  margin-top: 0.2rem;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.55);
+  background: rgba(15, 23, 42, 0.95);
+  padding: 0.7rem 0.8rem;
+}
+
+.drq-requested-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.drq-requested-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.drq-requested-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.drq-requested-name {
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.drq-requested-meta {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.drq-requested-link {
+  font-size: 0.74rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  background: #22d3ee;
+  color: #020617;
+  text-decoration: none;
+  border: 1px solid #22d3ee;
+}
+
+.drq-requested-link:hover {
+  box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.38);
+}
+
+.drq-requested-note {
+  margin-top: 0.3rem;
+  font-size: 0.76rem;
+  color: #6b7280;
+}
+
+/* ========= LIGHT THEME OVERRIDES ========= */
+
+body.light-theme .drq-filter-panel,
+body.light-theme .drq-results-panel {
+  background: #ffffff;
+  border-color: rgba(148, 163, 184, 0.7);
+  box-shadow: 0 18px 48px rgba(15, 23, 42, 0.12);
+  color: #111827;
+}
+
+body.light-theme .drq-panel-subtitle,
+body.light-theme .drq-results-subtitle,
+body.light-theme .drq-note,
+body.light-theme .drq-requested-note,
+body.light-theme .drq-requested-meta {
+  color: #6b7280;
+}
+
+body.light-theme .drq-input {
+  background: #f9fafb;
+  color: #111827;
+  border-color: rgba(148, 163, 184, 0.7);
+}
+
+body.light-theme .drq-chip {
+  background: #eff6ff;
+  color: #1e3a8a;
+  border-color: rgba(59, 130, 246, 0.6);
+}
+
+body.light-theme .drq-chip-muted {
+  background: #f3f4f6;
+  color: #4b5563;
+  border-color: rgba(148, 163, 184, 0.6);
+}
+
+body.light-theme .drq-dataset-card,
+body.light-theme .drq-requested-box {
+  background: #f9fafb;
+  border-color: rgba(148, 163, 184, 0.7);
+}
+
+body.light-theme .drq-dataset-type,
+body.light-theme .drq-meta-line,
+body.light-theme .drq-tag {
+  color: #4b5563;
+}
+
+body.light-theme .drq-tag {
+  background: #ffffff;
+  border-color: rgba(156, 163, 175, 0.7);
+}
+
+body.light-theme .drq-btn-secondary {
+  background: #f9fafb;
+  color: #111827;
+}
+
+/* ========= RESPONSIVE ========= */
+
+@media (max-width: 1024px) {
+  .drq-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .drq-dataset-card {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: flex-start;
+  }
+
+  .drq-dataset-meta {
+    align-items: flex-start;
+  }
+}
+.drq-requested-panel {
+  margin-top: 1rem;
+}
+
+/* box that both empty and non-empty states use */
+.drq-requested-box {
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.55);
+  background: rgba(15, 23, 42, 0.95);
+  padding: 0.7rem 0.8rem;
+}
+
+/* EMPTY STATE: horizontal layout */
+.drq-requested-box-empty {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.drq-requested-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap; /* keeps “Requested datasets (0)” on one line */
+  margin-bottom: 0;    /* no extra space in horizontal layout */
+}
+
+.drq-requested-empty {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+/* when there ARE requests */
+.drq-requested-header-row {
+  margin-bottom: 0.4rem;
+}
+
+.drq-requested-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.drq-requested-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* light theme tweaks, if you want it consistent */
+body.light-theme .drq-requested-box {
+  background: #f9fafb;
+  border-color: rgba(148, 163, 184, 0.7);
+}
+
+body.light-theme .drq-requested-empty,
+body.light-theme .drq-requested-meta,
+body.light-theme .drq-requested-note {
+  color: #6b7280;
+}
+/* ====== OUTER CONTAINER – LIKE TIME SERIES PANEL ====== */
+
+.drq-requested-shell {
+  margin-top: 1.2rem;
+  background: radial-gradient(circle at top left, #020617, #020617);
+  border-radius: 22px;
+  border: 1px solid rgba(30, 64, 175, 0.7);
+  padding: 1.1rem 1.2rem 1.2rem;
+  box-shadow: 0 22px 60px rgba(15, 23, 42, 0.9);
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.drq-requested-shell-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.drq-requested-shell-title {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.drq-requested-shell-subtitle {
+  font-size: 0.82rem;
+  color: #9ca3af;
+}
+
+.drq-requested-count {
+  align-self: center;
+  font-size: 0.8rem;
+  padding: 0.18rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  color: #e5e7eb;
+  background: rgba(15, 23, 42, 0.85);
+}
+
+/* ====== INNER GRID & CARDS (like the two big metric cards) ====== */
+
+.drq-requested-grid {
+  margin-top: 0.4rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.8rem;
+}
+
+.drq-requested-card {
+  border-radius: 18px;
+  border: 1px solid rgba(37, 99, 235, 0.5);
+  background: rgba(15, 23, 42, 0.96);
+  padding: 0.9rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.drq-requested-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.drq-requested-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.drq-requested-meta {
+  font-size: 0.78rem;
+  color: #9ca3af;
+}
+
+.drq-requested-link {
+  font-size: 0.82rem;
+  padding: 0.35rem 1.1rem;
+  border-radius: 999px;
+  background: #22d3ee;
+  color: #020617;
+  text-decoration: none;
+  border: 1px solid #22d3ee;
+}
+
+.drq-requested-link:hover {
+  box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.38);
+}
+
+/* EMPTY STATE CARD INSIDE THE BIG CONTAINER */
+
+.drq-requested-empty-card {
+  margin-top: 0.4rem;
+  border-radius: 18px;
+  border: 1px dashed rgba(148, 163, 184, 0.5);
+  background: rgba(15, 23, 42, 0.9);
+  padding: 0.9rem 1rem;
+}
+
+.drq-requested-empty-main {
+  font-size: 0.88rem;
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+}
+
+.drq-requested-empty-text {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+/* LIGHT THEME VERSION */
+
+body.light-theme .drq-requested-shell {
+  background: #ffffff;
+  border-color: rgba(148, 163, 184, 0.7);
+  box-shadow: 0 18px 48px rgba(15, 23, 42, 0.12);
+}
+
+body.light-theme .drq-requested-shell-subtitle,
+body.light-theme .drq-requested-meta,
+body.light-theme .drq-requested-empty-text {
+  color: #6b7280;
+}
+
+body.light-theme .drq-requested-card,
+body.light-theme .drq-requested-empty-card {
+  background: #f9fafb;
+  border-color: rgba(148, 163, 184, 0.7);
+}
+
+body.light-theme .drq-requested-count {
+  background: #eff6ff;
+  color: #1e3a8a;
+  border-color: rgba(59, 130, 246, 0.6);
+}
+
+@media (max-width: 768px) {
+  .drq-requested-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .drq-requested-link {
+    align-self: flex-start;
+  }
+}
+/* main layout: left = filter, right = column with 2 boxes */
+.drq-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(0, 1.6fr);
+  gap: 1.6rem;
+  margin-top: 1.4rem;
+}
+
+/* NEW: right column wrapper so “Filtered” and “Requested” are 2 separate boxes */
+.drq-right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem; /* vertical gap between the two big boxes */
+}
+
+/* you already have .drq-results-panel etc. for the first box */
+
+/* ========== REQUESTED OUTER CONTAINER (second box) ========== */
+
+.drq-requested-shell {
+  background: radial-gradient(circle at top left, #020617, #020617);
+  border-radius: 22px;
+  border: 1px solid rgba(30, 64, 175, 0.7);
+  padding: 1.1rem 1.2rem 1.2rem;
+  box-shadow: 0 22px 60px rgba(15, 23, 42, 0.9);
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.drq-requested-shell-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.drq-requested-shell-title {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.drq-requested-shell-subtitle {
+  font-size: 0.82rem;
+  color: #9ca3af;
+}
+
+.drq-requested-count {
+  align-self: center;
+  font-size: 0.8rem;
+  padding: 0.18rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  color: #e5e7eb;
+  background: rgba(15, 23, 42, 0.85);
+}
+
+/* grid of requested dataset cards */
+
+.drq-requested-grid {
+  margin-top: 0.4rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.8rem;
+}
+
+.drq-requested-card {
+  border-radius: 18px;
+  border: 1px solid rgba(37, 99, 235, 0.5);
+  background: rgba(15, 23, 42, 0.96);
+  padding: 0.9rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.drq-requested-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.drq-requested-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.drq-requested-meta {
+  font-size: 0.78rem;
+  color: #9ca3af;
+}
+
+.drq-requested-link {
+  font-size: 0.82rem;
+  padding: 0.35rem 1.1rem;
+  border-radius: 999px;
+  background: #22d3ee;
+  color: #020617;
+  text-decoration: none;
+  border: 1px solid #22d3ee;
+}
+
+.drq-requested-link:hover {
+  box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.38);
+}
+
+/* empty state card inside requested-shell */
+
+.drq-requested-empty-card {
+  margin-top: 0.4rem;
+  border-radius: 18px;
+  border: 1px dashed rgba(148, 163, 184, 0.5);
+  background: rgba(15, 23, 42, 0.9);
+  padding: 0.9rem 1rem;
+}
+
+.drq-requested-empty-main {
+  font-size: 0.88rem;
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+}
+
+.drq-requested-empty-text {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+/* light theme for the new requested container */
+
+body.light-theme .drq-requested-shell {
+  background: #ffffff;
+  border-color: rgba(148, 163, 184, 0.7);
+  box-shadow: 0 18px 48px rgba(15, 23, 42, 0.12);
+}
+
+body.light-theme .drq-requested-shell-subtitle,
+body.light-theme .drq-requested-meta,
+body.light-theme .drq-requested-empty-text {
+  color: #6b7280;
+}
+
+body.light-theme .drq-requested-card,
+body.light-theme .drq-requested-empty-card {
+  background: #f9fafb;
+  border-color: rgba(148, 163, 184, 0.7);
+}
+
+body.light-theme .drq-requested-count {
+  background: #eff6ff;
+  color: #1e3a8a;
+  border-color: rgba(59, 130, 246, 0.6);
+}
+
+@media (max-width: 1024px) {
+  .drq-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .drq-right-column {
+    order: 2;
+  }
+
+  .drq-filter-panel {
+    order: 1;
+  }
+
+  .drq-requested-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .drq-requested-link {
+    align-self: flex-start;
+  }
+}

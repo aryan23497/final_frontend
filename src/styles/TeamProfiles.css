@@ -1,0 +1,105 @@
+/* src/styles/TeamProfiles.css */
+
+.team-wrap {
+  margin: 28px 0;
+}
+
+.team-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #e6eef0;
+  margin: 0 0 12px 0;
+}
+
+/* responsive grid */
+.team-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+/* card */
+.team-card {
+  background: rgba(6, 12, 25, 0.45); /* adapt to your theme */
+  border-radius: 10px;
+  padding: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.04);
+  display: flex;
+  align-items: center;
+}
+
+.team-card-inner {
+  display: flex;
+  gap: 14px;
+  width: 100%;
+  align-items: center;
+}
+
+/* image */
+.team-media {
+  flex: 0 0 74px;
+}
+.team-photo {
+  width: 74px;
+  height: 74px;
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+/* content */
+.team-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.team-name {
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 6px;
+  font-size: 0.98rem;
+}
+.team-role {
+  color: #9fb2bd;
+  font-size: 0.86rem;
+  line-height: 1.25;
+}
+
+/* actions */
+.team-actions {
+  flex: 0 0 auto;
+}
+.btn {
+  display: inline-block;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: none;
+}
+.btn-outline {
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  color: #ffffff;
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 8px 12px;
+}
+
+/* small screens: stack actions below */
+@media (max-width: 520px) {
+  .team-card-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .team-actions {
+    width: 100%;
+    margin-top: 8px;
+  }
+  .team-actions .btn-outline {
+    width: 100%;
+    text-align: center;
+  }
+}

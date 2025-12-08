@@ -1,0 +1,354 @@
+.dashboard {
+  min-height: calc(100vh - 80px);
+  background: radial-gradient(circle at top, #020617, #000);
+  color: #e5e7eb;
+}
+
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 0;
+}
+
+/* ===== SIDEBAR ===== */
+
+.dashboard-sidebar {
+  padding: 2rem 1.6rem;
+  border-right: 1px solid rgba(30, 64, 175, 0.6);
+  background: radial-gradient(circle at top left, #020617, #020617);
+}
+
+.sidebar-title {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #2dd4bf;
+  margin-bottom: 1.5rem;
+}
+
+.sidebar-section + .sidebar-section {
+  margin-top: 1.4rem;
+}
+
+.sidebar-heading {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #9ca3af;
+  margin: 0 0 0.4rem 0;
+}
+
+.sidebar-item {
+  width: 100%;
+  text-align: left;
+  margin-bottom: 0.4rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: rgba(15, 23, 42, 0.8);
+  color: #e5e7eb;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.sidebar-item-small {
+  font-size: 0.85rem;
+}
+
+.sidebar-item:hover {
+  border-color: rgba(148, 163, 184, 0.7);
+}
+
+.sidebar-item-active {
+  border-color: #2dd4bf;
+  background: linear-gradient(
+    135deg,
+    rgba(45, 212, 191, 0.2),
+    rgba(8, 47, 73, 0.9)
+  );
+}
+
+/* ===== MAIN CONTENT ===== */
+
+.dashboard-main {
+  padding: 2.4rem 3rem 3.4rem;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 1.8rem;
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 1.9rem;
+}
+
+.dashboard-header p {
+  margin-top: 0.4rem;
+  color: #9ca3af;
+  max-width: 40rem;
+  font-size: 0.95rem;
+}
+
+.dashboard-badge {
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(45, 212, 191, 0.7);
+  background: rgba(15, 23, 42, 0.9);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #22c55e;
+}
+
+/* Sections & stats */
+
+.dashboard-section {
+  margin-top: 1.9rem;
+}
+
+.dashboard-section h2 {
+  margin: 0 0 0.3rem 0;
+  font-size: 1.4rem;
+}
+
+.dashboard-section-text {
+  color: #9ca3af;
+  font-size: 0.95rem;
+  max-width: 40rem;
+}
+
+.dashboard-stats {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1rem;
+}
+
+.stat-box {
+  padding: 1rem 1.1rem;
+  border-radius: 16px;
+  background: #020617;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.stat-value {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* Role / deliverable details */
+
+.detail-list {
+  margin: 0.7rem 0 0 1.2rem;
+  padding: 0;
+  font-size: 0.93rem;
+  color: #e5e7eb;
+}
+
+.detail-list li {
+  margin-bottom: 0.3rem;
+}
+
+.deliverable-header {
+  margin-top: 0.3rem;
+  margin-bottom: 0.4rem;
+}
+
+.deliverable-type {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  background: rgba(37, 99, 235, 0.3);
+  color: #bfdbfe;
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+  .dashboard-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-sidebar {
+    border-right: none;
+    border-bottom: 1px solid rgba(30, 64, 175, 0.6);
+  }
+
+  .dashboard-main {
+    padding: 1.8rem 1.4rem 3rem;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.sidebar-item {
+  width: 100%;
+  margin-bottom: 0.4rem;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.9rem;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+  border: 1px solid transparent;
+  transition: 0.2s;
+  text-align: left;
+}
+
+.sidebar-item-active {
+  border-color: #2dd4bf;
+  background: rgba(45, 212, 191, 0.15);
+}
+
+.sidebar-heading {
+  color: #9ca3af;
+  font-size: 0.8rem;
+  margin: 0 0 0.4rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* ===== TOP BAR ===== */
+.dashboard-topbar {
+  width: 100%;
+  padding: 10px 16px;
+  background: rgba(14, 23, 42, 0.85);
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.login-info {
+  font-size: 0.9rem;
+  color: #e5e7eb;
+}
+
+/* ===== SIDEBAR FOOTER (LOGOUT) ===== */
+.sidebar-footer {
+  margin-top: 20px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+.logout-btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(220, 38, 38, 0.15);
+  border: 1px solid rgba(220, 38, 38, 0.4);
+  color: #f87171;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.logout-btn:hover {
+  background: rgba(220, 38, 38, 0.25);
+}
+
+/* ===== LOGGED-IN ROLE BOX (LEFT SIDEBAR) ===== */
+.sidebar-user-box {
+  margin: 12px 0 16px 0;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(45, 212, 191, 0.25);
+}
+
+.sidebar-user-label {
+  font-size: 0.7rem;
+  color: #9ca3af;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.sidebar-user-role {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2dd4bf;
+  margin: 3px 0 0 0;
+}
+/* ===== Neon Capsule Button Style (like your image) ===== */
+
+
+.domain-icon {
+  font-size: 1.1rem;
+}
+
+.domain-label {
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+}
+
+/* ---------- Topic buttons (Domain Expert) ---------- */
+
+.module-card .domain-pill-column {
+  display: flex;
+  flex-wrap: wrap;          /* in a row, wrapping to next line */
+  gap: 0.75rem;
+  margin-top: 0.7rem;
+}
+
+.module-card .domain-pill {
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;     /* capsule shape */
+  background: linear-gradient(135deg, #021b22, #020617);
+  border: 1px solid rgba(45, 212, 191, 0.9);
+  color: #e5f9f6;
+  font-size: 0.9rem;
+  font-weight: 500;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+
+  cursor: pointer;
+  box-shadow:
+    0 0 8px rgba(45, 212, 191, 0.35),
+    inset 0 0 10px rgba(15, 23, 42, 0.8);
+  transition: all 0.18s ease-in-out;
+}
+
+/* hover glow */
+.module-card .domain-pill:hover {
+  background: linear-gradient(135deg, #022c35, #020617);
+  box-shadow:
+    0 0 14px rgba(45, 212, 191, 0.9),
+    inset 0 0 14px rgba(15, 23, 42, 0.8);
+  transform: translateY(-1px);
+}
+
+/* clicked / selected */
+.module-card .domain-pill-active {
+  border-color: #22c55e;
+  box-shadow:
+    0 0 16px rgba(34, 197, 94, 1),
+    inset 0 0 16px rgba(34, 197, 94, 0.3);
+  background: linear-gradient(135deg, #022c22, #020617);
+}
+
+.module-card .domain-icon {
+  font-size: 1rem;
+}
+
+.module-card .domain-label {
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+}

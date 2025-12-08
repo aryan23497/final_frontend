@@ -1,0 +1,324 @@
+/* Page shell */
+.landing {
+  padding: 2.4rem 3.2rem 4rem;
+  color: #e5e7eb;
+  background: radial-gradient(circle at top, #0b1120, #020617 45%, #000);
+  min-height: 100vh;
+  box-sizing: border-box;
+  font-family: Inter, "Segoe UI", Roboto, system-ui, -apple-system, "Helvetica Neue", Arial;
+}
+
+/* HERO */
+.hero {
+  display: grid;
+  grid-template-columns: 2fr 1.2fr;
+  gap: 2.8rem;
+  margin-bottom: 2.6rem;
+}
+
+.hero-badge {
+  padding: 0.35rem 1rem;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  color: #9ca3af;
+}
+
+.hero-title {
+  font-size: 3rem;
+  margin: 1rem 0 0.6rem;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+}
+
+.accent { color: #2dd4bf; }
+
+.hero-subtitle {
+  max-width: 42rem;
+  font-size: 1rem;
+  color: #9ca3af;
+}
+
+.hero-actions { margin-top: 1.6rem; display: flex; gap: 1rem; }
+
+.btn {
+  padding: 0.7rem 1.4rem;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary {
+  background: #2dd4bf;
+  color: #020617;
+  box-shadow: 0 8px 28px rgba(45,212,191,0.12);
+}
+
+.btn-outline {
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  background: rgba(15, 23, 42, 0.6);
+  color: #9ca3af;
+}
+
+/* Tags */
+.hero-tags { display: flex; gap: 0.6rem; margin-top: 1rem; flex-wrap: wrap; }
+.tag {
+  padding: 0.3rem 0.85rem;
+  background: rgba(8, 14, 32, 0.9);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+/* hero card right column */
+.hero-card {
+  background: radial-gradient(circle at top left, #0f172a, #020617);
+  padding: 1.8rem;
+  border-radius: 22px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.01), 0 8px 22px rgba(2,6,23,0.5);
+}
+
+/* Carousel */
+.hero-carousel {
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 1rem 0 1.4rem 0;
+  box-shadow: 0 10px 34px rgba(2,6,23,0.65);
+  position: relative;
+  background: linear-gradient(90deg, rgba(2,16,20,0.25), rgba(2,16,20,0.6));
+}
+.carousel__track { display:flex; transition: transform .7s cubic-bezier(.2,.9,.1,1); width:100%; height:100%; }
+.carousel__slide { min-width: 100%; height: 100%; background-size: cover; background-position: center; }
+
+/* Ministers (general styles kept) */
+.ministers-panel {
+  background: linear-gradient(180deg, rgba(11,17,26,0.6), rgba(2,6,23,0.5));
+  border: 1px solid rgba(148,163,184,0.08);
+  padding: 1rem;
+  border-radius: 12px;
+  color: #e8eef3;
+  box-shadow: 0 8px 28px rgba(3,8,12,0.5);
+}
+
+.ministers-header { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom: 10px; }
+.ministers-title { margin: 0; font-size: 1.05rem; color: #e6f9f4; }
+.ministers-controls { display:flex; gap: 8px; align-items:center; }
+
+/* Misc table styles (kept) */
+.ministers-table-wrap { overflow: auto; border-radius: 8px; margin-top: 8px; background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00)); }
+.ministers-table { width: 100%; border-collapse: seperate; min-width: 640px; }
+.ministers-table thead th { text-align:left; font-size: 0.9rem; color: #a7cfc8; padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.03); position: sticky; top: 0; background: rgba(2,6,10,0.3); backdrop-filter: blur(4px); z-index: 2; }
+.ministers-table tbody td { padding: 12px; vertical-align: middle; border-bottom: 1px dashed rgba(255,255,255,0.02); color: #e6f6f1; }
+
+.ministers-table {
+  border-collapse: separate; /* allow cell spacing */
+  border-spacing: 18px 12px; /* horizontal gap | vertical gap */
+}
+.min-row { transition: background .12s, transform .06s; cursor: default; }
+.min-row:hover, .min-row:focus-within { background: linear-gradient(90deg, rgba(45,212,191,0.02), rgba(255,255,255,0.01)); transform: translateY(-1px); }
+/* map container general tweaks (kept) */
+.map-container { border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.03); background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.03)); padding: 8px; }
+.leaflet-container a, .leaflet-control { color: #fff; }
+
+/* responsive adjustments (kept) */
+@media (max-width: 1200px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-card { order: 3; }
+}
+@media (max-width: 880px) {
+  .landing { padding: 1.6rem; }
+  .hero-title { font-size: 2.1rem; }
+  .hero-subtitle { max-width: 100%; }
+  .ministers-search { width: 160px; }
+  .ministers-panel { padding: 0.8rem; }
+  .actions-col { text-align: left; }
+  .ministers-table { min-width: 100%; }
+  .hero-carousel { height: 160px; }
+  .drawer-inner { padding: 12px; }
+  .profile-drawer { width: 95%; right: 2.5%; top: 6%; }
+}
+@media (max-width: 520px) {
+  .hero-title { font-size: 1.6rem; line-height: 1.1; }
+  .hero-actions { flex-direction: column; gap: 0.6rem; }
+  .ministers-search { width: 100%; }
+  .ministers-sort { display:none; }
+  .actions-col { text-align: left; }
+  .min-row { padding-left: 6px; padding-right: 6px; }
+}
+
+/* -------------------------
+   Consolidated map + side-table layout
+   -------------------------
+   This is the authoritative layout block for map + leadership table.
+   Adjust --map-height or --side-width variables if you need different sizing.
+*/
+:root {
+  --map-height: 420px;
+  --side-width: 360px;
+  --thumb-size: 56px;
+}
+
+.map-and-side {
+  margin-top: 18px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* main two-column grid */
+.map-and-side .map-side-grid {
+  display: grid;
+  grid-template-columns: 1fr var(--side-width);
+  gap: 20px;
+  align-items: start;
+  width: 100%;
+}
+
+/* ensure map container uses the fixed height */
+.map-side-grid .map-column .map-container {
+  width: 100%;
+  height: var(--map-height);
+  min-height: var(--map-height);
+  border-radius: 12px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* side column */
+.map-side-grid .side-column {
+  align-self: start;
+}
+
+/* side panel appearance (single source) */
+.side-table-panel {
+  background: linear-gradient(180deg, rgba(11,17,26,0.72), rgba(2,6,23,0.62));
+  border: 1px solid rgba(148,163,184,0.08);
+  padding: 14px;
+  border-radius: 12px;
+  color: #e6f9f4;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+  box-sizing: border-box;
+}
+
+/* scroll region aligns with map */
+.side-table-scroll {
+  max-height: var(--map-height);
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+/* compact side table styles */
+.side-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 12px;
+  color: #dff5ef;
+  table-layout: fixed;
+}
+.side-table thead th {
+  text-align: left;
+  padding: 10px 8px;
+  color: #9ecfc0;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  background: transparent;
+}
+.side-table tbody td {
+  padding: 20px 8px;
+  vertical-align: middle;
+  border-bottom: 1px dashed rgba(255,255,255,0.02);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* thumbnail portrait */
+.minister-thumb {
+  width: var(--thumb-size);
+  height: var(--thumb-size);
+  object-fit: cover;
+  object-position: center;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.03);
+  display: block;
+}
+
+/* compact column for thumbnails */
+.side-table thead th:nth-child(1),
+.side-table tbody td:nth-child(1) {
+  width: calc(var(--thumb-size) + 20px);
+}
+
+/* text styles in side table */
+.side-name { font-weight: 700; font-size: 0.95rem; color: #f7fffd; }
+.side-role { font-size: 0.85rem; color: #bfeee0; }
+
+/* Visit button small */
+.side-table .btn { font-size: 0.85rem; padding: 6px 10px; }
+
+/* row hover */
+.side-row:hover { background: rgba(45,212,191,0.03); }
+
+/* responsive: stack on small screens */
+@media (max-width: 980px) {
+  .map-and-side .map-side-grid {
+    grid-template-columns: 1fr;
+  }
+  .map-side-grid .map-column .map-container,
+  .side-table-scroll {
+    max-height: none;
+    height: auto;
+  }
+}
+
+/* small niceties */
+.minister-thumb[alt=""] { filter: grayscale(0.2); }
+
+/* Profile drawer (kept from original) */
+.profile-drawer {
+  position: fixed;
+  right: 16px;
+  top: 10%;
+  z-index: 1500;
+  width: 420px;
+  max-width: calc(100% - 40px);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(2,6,23,0.8);
+  display: flex;
+  align-items: stretch;
+}
+.drawer-inner { background: linear-gradient(180deg, #04121a, #07111a); padding: 18px; color: #e8f9f3; width: 100%; position: relative; }
+.drawer-close { position: absolute; right: 10px; top: 10px; background: transparent; border: none; color: #97cfc2; font-size: 18px; cursor: pointer; }
+.drawer-grid { display:grid; grid-template-columns: 110px 1fr; gap: 12px; align-items:start; }
+.drawer-photo img { width:100%; height:100%; object-fit:cover; border-radius:8px; border: 1px solid rgba(255,255,255,0.03); }
+.drawer-role { color: #9cccbf; margin-top:6px; }
+.drawer-bio { color: #bfeee0; margin-top:10px; }
+
+/* final responsive tweaks */
+@media (max-width: 520px) {
+  .hero-title { font-size: 1.6rem; line-height: 1.1; }
+  .hero-actions { flex-direction: column; gap: 0.6rem; }
+  .side-table .btn { width: auto; }
+}
+
+/* add vertical gap below sections like Core Capabilities */
+.section section-alt {
+  /* keep existing rules, then add / adjust margin-bottom */
+  /* margin-top: 50px; */
+  margin-top: 48px;   /* change value to taste: 32px, 48px, 64px */
+}
+
+/* If you prefer to push the map down instead (alternate):
+   add this to VisualizationTool.css (or the file holding .viz-layout) */
+.viz-layout {
+  margin-top: 40px; /* increases space above the map module */
+}

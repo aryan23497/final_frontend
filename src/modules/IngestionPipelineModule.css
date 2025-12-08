@@ -1,0 +1,323 @@
+/* Container */
+.ip-wrapper {
+  padding: 1.75rem 2rem;
+  max-width: 1120px;
+  margin: 0 auto;
+  color: #e5e7eb;
+}
+
+/* Light theme override */
+body.light-theme .ip-wrapper {
+  color: #111827;
+}
+
+/* Header block */
+.ip-header {
+  margin-bottom: 1.25rem;
+}
+
+.ip-eyebrow {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: #38bdf8;
+  margin-bottom: 0.3rem;
+}
+
+body.light-theme .ip-eyebrow {
+  color: #0f766e;
+}
+
+.ip-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.ip-text {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: #9ca3af;
+  max-width: 60rem;
+}
+
+body.light-theme .ip-text {
+  color: #6b7280;
+}
+
+/* Card */
+.ip-card {
+  margin-top: 0.75rem;
+  background: radial-gradient(circle at top left, #0b1220 0, #020617 55%, #020617 100%);
+  border-radius: 1rem;
+  border: 1px solid rgba(34, 211, 238, 0.25);
+  box-shadow: 0 22px 45px rgba(15, 23, 42, 0.9);
+  padding: 1.5rem 1.75rem;
+}
+
+body.light-theme .ip-card {
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.12);
+  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.1);
+}
+
+/* Fields */
+.ip-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.ip-field label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #cbd5f5;
+}
+
+body.light-theme .ip-field label {
+  color: #111827;
+}
+
+.ip-field input,
+.ip-field select,
+.ip-field textarea {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  background: rgba(15, 23, 42, 0.85);
+  color: #e5e7eb;
+  padding: 0.65rem 0.75rem;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+body.light-theme .ip-field input,
+body.light-theme .ip-field select,
+body.light-theme .ip-field textarea {
+  background: #f9fafb;
+  color: #111827;
+  border-color: rgba(148, 163, 184, 0.6);
+}
+
+.ip-field input:focus,
+.ip-field select:focus,
+.ip-field textarea:focus {
+  border-color: #22d3ee;
+  box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.45);
+}
+
+/* 2-column layout for source + format */
+.ip-two-col {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1rem;
+}
+
+/* Dropzone */
+.ip-dropzone {
+  margin-top: 0.5rem;
+  border-radius: 0.9rem;
+  border: 1.5px dashed rgba(148, 163, 184, 0.6);
+  background: radial-gradient(circle at top, rgba(15, 23, 42, 0.9) 0, rgba(15, 23, 42, 0.85) 60%, #020617 100%);
+  padding: 1.2rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.1s ease;
+}
+
+body.light-theme .ip-dropzone {
+  background: linear-gradient(135deg, #f9fafb, #eff6ff);
+  border-color: rgba(148, 163, 184, 0.9);
+}
+
+.ip-dropzone:hover {
+  border-color: #22d3ee;
+  transform: translateY(-1px);
+}
+
+.ip-drop-main {
+  font-size: 0.92rem;
+  font-weight: 500;
+  margin-bottom: 0.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+}
+
+.ip-drop-icon {
+  font-size: 1.1rem;
+}
+
+.ip-drop-sub {
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+body.light-theme .ip-drop-sub {
+  color: #6b7280;
+}
+
+.ip-browse {
+  color: #22d3ee;
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+
+body.light-theme .ip-browse {
+  color: #0ea5e9;
+}
+
+.ip-drop-hint {
+  margin-top: 0.35rem;
+  font-size: 0.78rem;
+  color: #6b7280;
+}
+
+body.light-theme .ip-drop-hint {
+  color: #9ca3af;
+}
+
+/* Files list */
+.ip-files {
+  margin-top: 1rem;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  background: rgba(15, 23, 42, 0.85);
+}
+
+body.light-theme .ip-files {
+  background: #f9fafb;
+  border-color: rgba(148, 163, 184, 0.6);
+}
+
+.ip-files-header {
+  padding: 0.6rem 0.75rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.ip-files ul {
+  list-style: none;
+  margin: 0;
+  padding: 0.2rem 0;
+}
+
+.ip-file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.82rem;
+}
+
+.ip-file-item + .ip-file-item {
+  border-top: 1px solid rgba(15, 23, 42, 0.7);
+}
+
+body.light-theme .ip-file-item + .ip-file-item {
+  border-top: 1px solid rgba(148, 163, 184, 0.4);
+}
+
+.ip-file-name {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ip-file-size {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.78rem;
+  color: #9ca3af;
+}
+
+body.light-theme .ip-file-size {
+  color: #6b7280;
+}
+
+.ip-file-remove {
+  border: none;
+  background: transparent;
+  color: #f97373;
+  cursor: pointer;
+  font-size: 0.78rem;
+  padding: 0.1rem 0.25rem;
+  border-radius: 999px;
+  transition: background 0.12s ease, transform 0.08s ease;
+}
+
+.ip-file-remove:hover {
+  background: rgba(248, 113, 113, 0.15);
+  transform: scale(1.05);
+}
+
+/* Actions */
+.ip-actions {
+  margin-top: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.ip-btn-primary {
+  /* assumes you already have a .btn base class */
+  background: linear-gradient(135deg, #22d3ee, #2dd4bf);
+  border-radius: 999px;
+  border: none;
+  padding: 0.55rem 1.4rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #0f172a;
+  cursor: pointer;
+  box-shadow: 0 14px 30px rgba(34, 211, 238, 0.35);
+  transition: transform 0.08s ease, box-shadow 0.12s ease, filter 0.12s ease;
+}
+
+.ip-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 40px rgba(34, 211, 238, 0.45);
+  filter: brightness(1.05);
+}
+
+.ip-btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 10px 24px rgba(34, 211, 238, 0.35);
+}
+
+.ip-small {
+  font-size: 0.78rem;
+  color: #9ca3af;
+  max-width: 22rem;
+}
+
+body.light-theme .ip-small {
+  color: #6b7280;
+}
+
+/* Textarea */
+.ip-field textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .ip-wrapper {
+    padding: 1.25rem 1rem 1.5rem;
+  }
+
+  .ip-card {
+    padding: 1.25rem 1.1rem;
+  }
+
+  .ip-two-col {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

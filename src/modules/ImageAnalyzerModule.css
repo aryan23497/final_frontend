@@ -1,0 +1,81 @@
+/* src/modules/ImageAnalyzerModule.css */
+
+.img-layout {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 1.4rem;
+  margin-top: 1.4rem;
+}
+
+.img-panel {
+  background: radial-gradient(circle at top left, #0f172a, #020617);
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  padding: 1.1rem 1.2rem;
+}
+
+.img-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e5e7eb;
+  margin-bottom: 0.3rem;
+}
+
+.img-text {
+  font-size: 0.82rem;
+  color: #9ca3af;
+  margin-bottom: 0.7rem;
+}
+
+.img-upload-box {
+  border: 1px dashed rgba(148, 163, 184, 0.6);
+  border-radius: 14px;
+  padding: 1.5rem 0.7rem;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 0.82rem;
+  background: rgba(15, 23, 42, 0.9);
+  margin-bottom: 0.6rem;
+}
+
+.img-upload-box span {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.76rem;
+  color: #64748b;
+}
+
+.img-note {
+  font-size: 0.74rem;
+  color: #6b7280;
+}
+
+.img-grid {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+}
+
+.img-card {
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: rgba(15, 23, 42, 0.9);
+  padding: 0.5rem 0.7rem;
+  font-size: 0.8rem;
+  color: #e5e7eb;
+}
+
+.img-label {
+  font-size: 0.86rem;
+}
+
+.img-meta {
+  font-size: 0.76rem;
+  color: #9ca3af;
+}
+
+@media (max-width: 960px) {
+  .img-layout {
+    grid-template-columns: 1fr;
+  }
+}

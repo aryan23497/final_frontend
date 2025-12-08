@@ -1,0 +1,174 @@
+/* ================================
+   SCIENTIST HOME MODULE
+================================ */
+
+.scientist-home {
+  width: 100%;
+  min-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  background: radial-gradient(circle at top, #020617 0%, #020617 60%, #030b1b 100%);
+  color: #e5e7eb;
+}
+
+/* ===== HEADER ===== */
+
+.scientist-home-header {
+  background: linear-gradient(135deg, #06122b, #020617);
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  border-radius: 18px;
+  padding: 20px 26px;
+  box-shadow: 0 10px 40px rgba(2, 6, 23, 0.85);
+}
+
+.scientist-home-header h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.scientist-home-header p {
+  font-size: 0.9rem;
+  color: #9ca3af;
+}
+
+/* ===== FULL-WIDTH REAL-TIME PLOT ===== */
+
+.realtime-plot-container {
+  width: 100%;
+  min-height: 420px;
+  background: linear-gradient(180deg, #050f26, #020617);
+  border-radius: 20px;
+  border: 1px solid rgba(96, 165, 250, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 40px rgba(2, 6, 23, 0.7),
+              0 14px 36px rgba(2, 6, 23, 0.85);
+}
+
+.realtime-plot-placeholder {
+  text-align: center;
+  color: #93c5fd;
+}
+
+.realtime-plot-placeholder h4 {
+  font-size: 1.15rem;
+  margin-bottom: 8px;
+  color: #e5f0ff;
+}
+
+.realtime-plot-placeholder p {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* ===== METRICS GRID ===== */
+
+.home-metrics-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+}
+
+.home-metric-card {
+  background: linear-gradient(160deg, #07132e, #020617);
+  border-radius: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  padding: 18px 20px;
+  box-shadow: 0 10px 26px rgba(2, 6, 23, 0.8);
+}
+
+.home-metric-label {
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+.home-metric-value {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 6px 0;
+  color: #22d3ee;
+}
+
+.home-metric-note {
+  font-size: 0.8rem;
+  color: #93c5fd;
+}
+
+/* ===== QUICK ACTIONS ===== */
+
+.home-actions {
+  background: linear-gradient(160deg, #07132e, #020617);
+  border-radius: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  padding: 18px 22px;
+  box-shadow: 0 10px 26px rgba(2, 6, 23, 0.8);
+}
+
+.home-actions h4 {
+  font-size: 1.05rem;
+  margin-bottom: 12px;
+}
+
+.home-actions-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.home-action-btn {
+  background: rgba(45, 212, 191, 0.1);
+  border: 1px solid rgba(45, 212, 191, 0.6);
+  color: #aaf0ff;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.home-action-btn:hover {
+  background: rgba(45, 212, 191, 0.22);
+  transform: translateY(-1px);
+}
+
+/* ===== STATUS ===== */
+
+.home-status {
+  background: linear-gradient(160deg, #07132e, #020617);
+  border-radius: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  padding: 16px 20px;
+  box-shadow: 0 10px 26px rgba(2, 6, 23, 0.8);
+  font-size: 0.9rem;
+  color: #9ca3af;
+}
+
+/* ===== LIGHT MODE SUPPORT ===== */
+
+body.light-theme .scientist-home,
+body.light-theme .scientist-home-header,
+body.light-theme .home-metric-card,
+body.light-theme .home-actions,
+body.light-theme .home-status,
+body.light-theme .realtime-plot-container {
+  background: #ffffff;
+  color: #111827;
+  border-color: rgba(148, 163, 184, 0.6);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+body.light-theme .home-metric-value {
+  color: #0284c7;
+}
+
+body.light-theme .home-action-btn {
+  background: #eff6ff;
+  color: #1e3a8a;
+  border-color: #60a5fa;
+}
