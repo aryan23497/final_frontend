@@ -87,7 +87,8 @@ const VisualizationTool = () => {
       if (!time1) setTime1(toDDMMYYYY(new Date()));
       if (!time2) setTime2(toDDMMYYYY(new Date()));
     }
-  }, [timeRange, time1, time2, setLastNDays, toDDMMYYYY]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timeRange]);
 
   useEffect(() => {
     // init default
@@ -167,19 +168,19 @@ const VisualizationTool = () => {
       end_date,
       time_range: timeRange,
       x_axis,
-      y_axes,
+      y_axes: y_axes, // Ensure y_axes is always a list
       x_label: vizParams.independentVariable,
       y_labels: parameters,
       plot_type: plotType,
     };
 
     const params = {
-      start_date,
-      end_date,
       plot_type: plotType,
       x: x_axis,
-      y: y_axes.length ? y_axes[0] : "",
-      format: "png",
+      y: y_axes, // Pass y_axes as list in GET params too
+      start_date,
+      end_date,
+      
     };
 
     return { body, params };
@@ -206,7 +207,7 @@ const VisualizationTool = () => {
 
     setLoading(true);
 
-    const backendUrl = "http://192.168.137.121:8000/ocean/plot";
+    const backendUrl = "http://10.121.243.94:8000/ocean/plot/multi";
     const { body, params } = buildPayloadAndParams();
 
     if (controllerRef.current) {
@@ -233,6 +234,21 @@ const VisualizationTool = () => {
         resp = await axios.post(backendUrl, body, postConfig);
       } catch (postErr) {
         if (postErr?.response?.status === 405) {
+          // Build query string manually to get y=value1&y=value2 format
+          const queryParts = [];
+          queryParts.push(`plot_type=${encodeURIComponent(params.plot_type)}`);
+          queryParts.push(`x=${encodeURIComponent(params.x)}`);
+          // Add each y value separately
+          if (Array.isArray(params.y)) {
+            params.y.forEach(yVal => {
+              queryParts.push(`y=${encodeURIComponent(yVal)}`);
+            });
+          }
+          queryParts.push(`format=${encodeURIComponent(params.format)}`);
+          
+          const queryString = queryParts.join('&');
+          const urlWithQuery = `${backendUrl}?${queryString}`;
+          
           const getConfig = {
             responseType: "blob",
             timeout: 45000,
@@ -240,9 +256,8 @@ const VisualizationTool = () => {
             headers: {
               Accept: "image/png, image/jpeg, application/octet-stream",
             },
-            params,
           };
-          resp = await axios.get(backendUrl, getConfig);
+          resp = await axios.get(urlWithQuery, getConfig);
         } else {
           throw postErr;
         }
@@ -334,10 +349,17 @@ const VisualizationTool = () => {
             <div className="viz-form-group">
               <label>Start date</label>
               <input
-                type="text"
-                placeholder="dd/mm/yyyy"
-                value={time1}
-                onChange={(e) => setTime1(e.target.value)}
+                type="date"
+                value={toYYYYMMDD(time1)}
+                onChange={(e) => {
+                  const yyyymmdd = e.target.value;
+                  if (yyyymmdd) {
+                    const [yyyy, mm, dd] = yyyymmdd.split('-');
+                    setTime1(`${dd}/${mm}/${yyyy}`);
+                  } else {
+                    setTime1('');
+                  }
+                }}
                 className="date-input"
               />
             </div>
@@ -345,10 +367,17 @@ const VisualizationTool = () => {
             <div className="viz-form-group">
               <label>End date</label>
               <input
-                type="text"
-                placeholder="dd/mm/yyyy"
-                value={time2}
-                onChange={(e) => setTime2(e.target.value)}
+                type="date"
+                value={toYYYYMMDD(time2)}
+                onChange={(e) => {
+                  const yyyymmdd = e.target.value;
+                  if (yyyymmdd) {
+                    const [yyyy, mm, dd] = yyyymmdd.split('-');
+                    setTime2(`${dd}/${mm}/${yyyy}`);
+                  } else {
+                    setTime2('');
+                  }
+                }}
                 className="date-input"
               />
             </div>

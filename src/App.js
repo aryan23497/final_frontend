@@ -7,6 +7,8 @@ import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
 import MinisterPage from "./pages/MinisterPage";
 import SettingsPage from "./pages/SettingsPage";
+import DocsPage from "./pages/DocsPage";
+
 
 
 function App() {
@@ -20,6 +22,7 @@ function App() {
           <Route path="/dashboard" element={<DashboardPage />} />  {/* required */}
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/ministers/:id" element={<MinisterPage />} />
+           <Route path="/docs" element={<DocsPage />} />
         </Routes>
       </div>
     </Router>

@@ -1,237 +1,240 @@
-// src/modules/ScientistHomeModule.jsx
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import axios from "axios";
 import "./ScientistHomeModule.css";
 
-// how many points to keep on the screen
-const POINT_COUNT = 40;
+// Backend URL - update if needed
+const BACKEND_URL = "http://10.121.243.94:8000/visualize/map";
 
-// create initial fake SST series
-const createInitialSeries = () => {
-  const base = 27; // base SST
-  return Array.from({ length: POINT_COUNT }, (_, i) => ({
-    x: i,
-    value:
-      base +
-      Math.sin(i / 5) * 0.7 + // slow oscillation
-      (Math.random() - 0.5) * 0.3, // tiny noise
-  }));
-};
+const PARAMETERS = [
+  { value: "DIC", label: "DIC" },
+  { value: "MLD", label: "MLD" },
+  { value: "PCO2_ORIGINAL", label: "PCO2_ORIGINAL" },
+  { value: "CHL", label: "CHL" },
+  { value: "NO3", label: "NO3" },
+  { value: "SSS", label: "SSS" },
+  { value: "SST", label: "SST" },
+  { value: "DEVIANT_UNCERTAINTY", label: "DEVIANT_UNCERTAINTY" },
+];
 
 const ScientistHomeModule = () => {
-  const [series, setSeries] = useState(createInitialSeries);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [isLive, setIsLive] = useState(false);
 
-  // every 3 seconds, push a new point & drop the oldest
-  useEffect(() => {
-    const id = setInterval(() => {
-      setSeries((prev) => {
-        const last = prev[prev.length - 1];
-        const nextX = last.x + 1;
-        // keep new value near previous with a bit of randomness
-        const nextValue =
-          last.value +
-          (Math.random() - 0.5) * 0.4 + // random wiggle
-          Math.sin(nextX / 8) * 0.05; // gentle drift
-        const sliced = prev.slice(1);
-        return [...sliced, { x: nextX, value: nextValue }];
+  // default parameter
+  const [parameter, setParameter] = useState("DEVIANT_UNCERTAINTY");
+
+  // image blob url returned by backend when "Generate Plot" is used
+  const [plotImage, setPlotImage] = useState(null);
+
+  // livePlotUrl will be used to embed the map/plot in an iframe below the buttons
+  const [livePlotUrl, setLivePlotUrl] = useState(null);
+
+  const mountedRef = useRef(true);
+  const controllerRef = useRef(null);
+
+  const generatePlot = async () => {
+    setError(null);
+    setLoading(true);
+    setIsLive(false);
+
+    // revoke previous blob URL if exists
+    if (plotImage) {
+      try {
+        URL.revokeObjectURL(plotImage);
+      } catch (e) {}
+      setPlotImage(null);
+    }
+
+    // cancel previous request if any
+    if (controllerRef.current) {
+      try {
+        controllerRef.current.abort();
+      } catch (e) {}
+    }
+
+    const controller = new AbortController();
+    controllerRef.current = controller;
+
+    try {
+      const response = await axios.get(BACKEND_URL, {
+        params: { parameter },
+        responseType: "blob",
+        timeout: 30000,
+        signal: controller.signal,
+        headers: {
+          Accept: "image/png, image/jpeg, application/octet-stream",
+        },
       });
-    }, 3000);
 
-    return () => clearInterval(id);
+      if (!mountedRef.current) return;
+
+      const blob = response?.data;
+      if (!blob) throw new Error("No image data received from server.");
+
+      const url = URL.createObjectURL(blob);
+      setPlotImage(url);
+      setIsLive(true);
+      setError(null);
+
+      // Also clear embedded iframe URL so the image shows (if you prefer iframe instead, comment this)
+      setLivePlotUrl(null);
+    } catch (err) {
+      if (!mountedRef.current) return;
+      if (axios.isCancel?.(err)) {
+        console.log("Request cancelled");
+      } else {
+        console.error("Failed to generate plot:", err);
+        if (err.response) {
+          setError(`Server returned ${err.response.status}: ${err.response.statusText}`);
+        } else if (err.request) {
+          setError("No response from server. Confirm backend is running and accessible.");
+        } else {
+          setError(err.message || "Unknown error");
+        }
+      }
+      setIsLive(false);
+    } finally {
+      if (mountedRef.current) setLoading(false);
+    }
+  };
+
+  // Set iframe URL to open the map in the same page below the buttons
+  const openMapHere = () => {
+    const url = `${BACKEND_URL}?parameter=${encodeURIComponent(parameter)}`;
+    setLivePlotUrl(url);
+    // clear any previously loaded image blob so iframe is visible
+    if (plotImage) {
+      try {
+        URL.revokeObjectURL(plotImage);
+      } catch (e) {}
+      setPlotImage(null);
+    }
+  };
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      if (controllerRef.current) {
+        try {
+          controllerRef.current.abort();
+        } catch (e) {}
+      }
+      if (plotImage) {
+        try {
+          URL.revokeObjectURL(plotImage);
+        } catch (e) {}
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // compute SVG path
-  const { path, minVal, maxVal } = useMemo(() => {
-    if (!series.length) return { path: "", minVal: 0, maxVal: 1 };
-
-    const values = series.map((d) => d.value);
-    const minV = Math.min(...values) - 0.3;
-    const maxV = Math.max(...values) + 0.3;
-
-    const width = 900;
-    const height = 260;
-    const paddingLeft = 40;
-    const paddingRight = 10;
-    const paddingTop = 20;
-    const paddingBottom = 30;
-
-    const usableWidth = width - paddingLeft - paddingRight;
-    const usableHeight = height - paddingTop - paddingBottom;
-
-    const xScale = (i) =>
-      paddingLeft +
-      (i / Math.max(series.length - 1, 1)) * usableWidth;
-
-    const yScale = (v) => {
-      const norm =
-        (v - minV) / Math.max(maxV - minV, 0.0001); // 0 → 1
-      return paddingTop + (1 - norm) * usableHeight;
-    };
-
-    let p = "";
-    series.forEach((pt, i) => {
-      const x = xScale(i);
-      const y = yScale(pt.value);
-      p += i === 0 ? `M ${x} ${y}` : ` L ${x} ${y}`;
-    });
-
-    return { path: p, minVal: minV, maxVal: maxV };
-  }, [series]);
-
   return (
-    <div className="scientist-home">
-      {/* HEADER */}
-      <header className="scientist-home-header">
-        <h3>Real-time Oceanography Snapshot</h3>
-        <p>
-          Surface sea-surface temperature (SST) stream – mock real-time
-          data for the Indian EEZ. Plot updates automatically every few
-          seconds.
+    <div className="scientist-home" style={{ padding: 16, borderRadius: 20 }}>
+      <header style={{ marginBottom: 12 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <h3 style={{ margin: 0 }}>Real-time Oceanography Snapshot</h3>
+
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <label htmlFor="parameter-select" style={{ fontSize: "0.9rem", color: "#9ca3af" }}>
+              Choose Parameter:
+            </label>
+
+            <select
+              id="parameter-select"
+              value={parameter}
+              onChange={(e) => setParameter(e.target.value)}
+              style={{
+                padding: "6px 12px",
+                borderRadius: 8,
+                border: "1px solid rgba(148, 163, 184, 0.3)",
+                background: "rgba(15, 23, 42, 0.85)",
+                color: "#e5e7eb",
+                fontSize: "0.9rem",
+                cursor: "pointer",
+              }}
+            >
+              {PARAMETERS.map((p) => (
+                <option key={p.value} value={p.value}>
+                  {p.label}
+                </option>
+              ))}
+            </select>
+
+            <button
+              onClick={generatePlot}
+              disabled={loading}
+              style={{
+                padding: "8px 20px",
+                borderRadius: 999,
+                border: "none",
+                background: loading ? "#94a3b8" : "#06b6d4",
+                color: loading ? "#9ca3af" : "#020617",
+                fontSize: "0.9rem",
+                fontWeight: 600,
+                cursor: loading ? "not-allowed" : "pointer",
+              }}
+            >
+              {loading ? "Generating..." : "Generate Plot"}
+            </button>
+
+            <button
+              onClick={openMapHere}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: "1px solid rgba(148,163,184,0.2)",
+                background: "rgba(255, 255, 255, 1)",
+                color: "#111827",
+                fontSize: "0.9rem",
+                cursor: "pointer",
+                marginLeft: 8,
+              }}
+              title={`Open ${BACKEND_URL}?parameter=${parameter}`}
+            >
+              Open Map Here
+            </button>
+          </div>
+        </div>
+        <p style={{ marginTop: 8 }}>
+          Select a parameter and click Generate Plot to visualize {parameter} data.
         </p>
       </header>
 
-      {/* REAL-TIME PLOT */}
-      <section className="realtime-plot-container">
-        <div className="realtime-plot-inner">
-          <div className="realtime-plot-header-row">
-            <div>
-              <p className="realtime-plot-title">
-                SST (°C) · Last ~2 hours (mock)
-              </p>
-              <p className="realtime-plot-sub">
-                Streaming demo only – hook this to your /ocean/plot or
-                WebSocket endpoint later.
-              </p>
-            </div>
-            <span className="realtime-badge">
-              Live mock · {series[series.length - 1]?.value.toFixed(2)}°C
-            </span>
-          </div>
+      {/* Display errors if any */}
+      {error && (
+        <div style={{ color: "#b91c1c", marginBottom: 12 }}>{error}</div>
+      )}
 
-          <svg
-            className="realtime-plot-svg"
-            viewBox="0 0 900 260"
-            preserveAspectRatio="none"
-          >
-            {/* gradient background */}
-            <defs>
-              <linearGradient id="sstLine" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#22d3ee" />
-                <stop offset="100%" stopColor="#38bdf8" />
-              </linearGradient>
-              <linearGradient id="sstFill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="rgba(34,211,238,0.35)" />
-                <stop offset="100%" stopColor="rgba(15,23,42,0.0)" />
-              </linearGradient>
-            </defs>
-
-            {/* under-area */}
-            {path && (
-              <>
-                <path
-                  d={`${path} L 890 260 L 40 260 Z`}
-                  fill="url(#sstFill)"
-                />
-                <path
-                  d={path}
-                  fill="none"
-                  stroke="url(#sstLine)"
-                  strokeWidth="2.2"
-                  strokeLinejoin="round"
-                  strokeLinecap="round"
-                />
-              </>
-            )}
-
-            {/* simple Y ticks on left */}
-            {Array.from({ length: 4 }).map((_, i) => {
-              const t = i / 3;
-              const value = (minVal + t * (maxVal - minVal)).toFixed(1);
-              const y = 40 + (1 - t) * 180;
-              return (
-                <g key={i}>
-                  <line
-                    x1={40}
-                    x2={880}
-                    y1={y}
-                    y2={y}
-                    stroke="rgba(148,163,184,0.18)"
-                    strokeWidth="0.8"
-                    strokeDasharray="3 4"
-                  />
-                  <text
-                    x={10}
-                    y={y + 4}
-                    fontSize="10"
-                    fill="#9ca3af"
-                  >
-                    {value}°C
-                  </text>
-                </g>
-              );
-            })}
-          </svg>
+      {/* If backend returned an image blob via Generate Plot, show it as <img> */}
+      {plotImage && (
+        <div style={{ marginTop: 12 }}>
+          <img
+            src={plotImage}
+            alt="generated-plot"
+            style={{ width: "100%", maxHeight: 600, objectFit: "contain", borderRadius: 8, border: "1px solid rgba(148,163,184,0.15)" }}
+          />
         </div>
-      </section>
+      )}
 
-      {/* METRICS + ACTIONS ROW */}
-      <section className="home-metrics-grid">
-        <div className="home-metric-card">
-          <p className="home-metric-label">Current SST (mock)</p>
-          <p className="home-metric-value">
-            {series[series.length - 1]?.value.toFixed(2)}°C
-          </p>
-          <p className="home-metric-note">
-            Near climatological mean for selected region.
-          </p>
+      {/* If the user clicked Open Map Here (or set livePlotUrl), embed the backend page in an iframe */}
+      {livePlotUrl && (
+        <div style={{ marginTop: 12 }}>
+          <iframe
+            src={livePlotUrl}
+            title="live-map"
+            style={{ width: "100%", height: 600, border: "1px solid rgba(148,163,184,0.15)", borderRadius: 8 }}
+          />
         </div>
+      )}
 
-        <div className="home-metric-card">
-          <p className="home-metric-label">Last ΔT (mock)</p>
-          <p className="home-metric-value">
-            {(
-              series[series.length - 1].value -
-              series[series.length - 3].value
-            ).toFixed(2)}
-            °C
-          </p>
-          <p className="home-metric-note">
-            Change over last two samples in the stream.
-          </p>
+      {/* Optionally show a small note when neither image nor iframe is present */}
+      {!plotImage && !livePlotUrl && (
+        <div style={{ marginTop: 12, color: "#6b7280" }}>
+          No plot loaded. Choose a parameter and click <strong>Generate Plot</strong> or <strong>Open Map Here</strong>.
         </div>
-      </section>
-
-      <section className="home-actions">
-        <h4>Quick actions</h4>
-        <div className="home-actions-list">
-          <button
-            type="button"
-            className="home-action-btn"
-            onClick={() => window.alert("Open Visualization Tool")}
-          >
-            Open Visualization Tool
-          </button>
-          <button
-            type="button"
-            className="home-action-btn"
-            onClick={() => window.alert("Open AI Recommendation System")}
-          >
-            Ask AI for datasets
-          </button>
-          <button
-            type="button"
-            className="home-action-btn"
-            onClick={() => window.alert("Open Cloud Data Server")}
-          >
-            View Cloud Data Server
-          </button>
-        </div>
-      </section>
-
-      <section className="home-status">
-        Live mock stream · updates every few seconds. Replace this
-        series with real values from your FastAPI backend (e.g.
-        `/ocean/plot/stream` or WebSocket) when ready.
-      </section>
+      )}
     </div>
   );
 };

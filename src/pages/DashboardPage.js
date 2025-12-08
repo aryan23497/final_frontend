@@ -8,6 +8,7 @@ import DataUploadSection from "../components/DataUploadSection";
 // Scientist modules
 import ScientistHomeModule from "../modules/ScientistHomeModule";
 import VisualizationTool from "../modules/VisualizationTool";
+import BiodiversityPlot from "../modules/BiodiversityPlot";
 import VisualizationParametersPanel from "../modules/VisualizationParametersPanel";
 import AIRecommendationModule from "../modules/AIRecommendationModule";
 import IngestionPipelineModule from "../modules/IngestionPipelineModule";
@@ -40,13 +41,18 @@ import UploadHistoryModule from "../modules/UploadHistoryModule";
 const SCIENTIST_MODULES = [
    {
     id: "home",
-    name: "Real-time Plot",
+    name: "Dynamic Plot",
     desc: "Real-time oceanography overview and quick access to key tools.",
   },
   {
     id: "viz",
     name: "Visualization Tool",
     desc: "Interactive dashboards for oceanographic, fisheries & biodiversity analysis.",
+  },
+  {
+    id: "biodiversity-plot",
+    name: "Biodiversity Plot",
+    desc: "Real-time biodiversity visualization and parameter analysis.",
   },
   {
     id: "ai-reco",
@@ -287,6 +293,8 @@ const DashboardPage = () => {
       return <ScientistHomeModule />;
         case "viz":
           return <VisualizationTool />;
+        case "biodiversity-plot":
+          return <BiodiversityPlot />;
         case "ai-reco":
           return <AIRecommendationModule />;
         case "ingest":

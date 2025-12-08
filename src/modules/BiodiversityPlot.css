@@ -1,0 +1,166 @@
+/* BiodiversityPlot.css
+   Theme matched to VisualizationTool.css (colors, radii, spacing) */
+
+/* Container */
+.biodiversity-plot {
+  width: 100%;
+  min-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: border-box;
+  padding: 0.6rem;
+  color: #e5e7eb;
+  background: radial-gradient(circle at top left, #0f172a, #020617);
+}
+
+/* Header panel matches .viz-panel styles */
+.biodiversity-plot > header,
+.biodiversity-plot-header {
+  background: radial-gradient(circle at top left, #0f172a, #020617);
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  padding: 0.9rem 1.1rem;
+  box-shadow: 0 10px 24px rgba(2,6,23,0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.biodiversity-plot > header h3,
+.biodiversity-plot-header h3 {
+
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e5e7eb;
+  margin-top: 200px;
+}
+
+.biodiversity-plot > header p,
+.biodiversity-plot-header p {
+  font-size: 0.88rem;
+  color: #9ca3af;
+  margin: 0;
+}
+
+/* Controls row (label, input, buttons) */
+.biodiversity-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+/* Label */
+.biodiversity-controls label {
+  font-size: 0.88rem;
+  color: #cbd5e1;
+}
+
+/* Text input styled like viz form controls */
+.biodiversity-controls input[type="text"],
+.biodiversity-controls input[type="search"] {
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(15,23,42,0.85);
+  border: 1px solid rgba(148,163,184,0.22);
+  color: #e5e7eb;
+  font-size: 0.92rem;
+  min-width: 220px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.biodiversity-controls input::placeholder {
+  color: rgba(226,232,240,0.45);
+}
+
+/* Buttons share viz-apply-btn look but smaller */
+.biodiversity-btn {
+  padding: 0.56rem 0.9rem;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #2dd4bf, #38bdf8);
+  color: #020617;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 0 14px rgba(45, 212, 191, 0.45);
+}
+
+.biodiversity-btn.secondary {
+  background: transparent;
+  border: 1px solid rgba(148,163,184,0.18);
+  color: #e5e7eb;
+  box-shadow: none;
+  border-radius: 8px;
+}
+
+/* Small muted help text */
+.biodiversity-hint {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.78rem;
+  color: #6b7280;
+}
+
+/* Error */
+.biodiversity-error {
+  color: #fca5a5;
+  font-size: 0.88rem;
+  margin-top: 6px;
+}
+
+/* Plot image panel (same panel styling) */
+.biodiversity-plot-image,
+.biodiversity-iframe-container {
+  background: rgba(15,23,42,0.9);
+  border-radius: 16px;
+  border: 1px solid rgba(148,163,184,0.12);
+  padding: 12px;
+  box-sizing: border-box;
+  box-shadow: 0 10px 24px rgba(2,6,23,0.6);
+  width: 100%;
+}
+
+/* Image styles */
+.biodiversity-plot-image img {
+  width: 100%;
+  height: auto;
+  max-height: 700px;
+  object-fit: contain;
+  border-radius: 12px;
+  display: block;
+  background: linear-gradient(180deg, rgba(2,6,23,0.6), rgba(2,6,23,0.9));
+  border: 1px solid rgba(148,163,184,0.06);
+}
+
+/* Iframe styles */
+.biodiversity-iframe-container iframe {
+  width: 100%;
+  height: 680px;
+  border-radius: 12px;
+  border: 1px solid rgba(148,163,184,0.12);
+  display: block;
+}
+
+/* Placeholder when nothing is loaded */
+.biodiversity-placeholder {
+  color: #9ca3af;
+  font-size: 0.92rem;
+  padding: 18px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 1100px) {
+  .biodiversity-iframe-container iframe,
+  .biodiversity-plot-image img { height: 420px; max-height: none; }
+  .biodiversity-controls { width: 100%; gap: 8px; }
+}
+
+@media (max-width: 640px) {
+  .biodiversity-iframe-container iframe,
+  .biodiversity-plot-image img { height: 320px; }
+  .biodiversity-controls input { min-width: 140px; }
+}

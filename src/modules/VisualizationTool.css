@@ -200,7 +200,7 @@
   color: #6b7280;
 }
 
-/* Date input (custom dd/mm/yyyy string inputs) */
+/* Date input (HTML5 date picker with visible calendar icon) */
 .date-input {
   width: 100%;
   padding: 10px 12px;
@@ -211,6 +211,7 @@
   font-size: 0.95rem;
   outline: none;
   box-sizing: border-box;
+  position: relative;
 }
 
 .date-input::placeholder { color: rgba(226,232,240,0.45); }
@@ -218,6 +219,22 @@
 .date-input:focus {
   border-color: #38bdf8;
   box-shadow: 0 0 6px rgba(56, 189, 248, 0.28);
+}
+
+/* Make calendar icon visible and styled */
+.date-input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(0.8) brightness(1.2);
+  opacity: 0.9;
+  padding: 4px;
+  border-radius: 4px;
+  background: rgba(45, 212, 191, 0.15);
+}
+
+.date-input::-webkit-calendar-picker-indicator:hover {
+  filter: invert(1) brightness(1.5);
+  background: rgba(45, 212, 191, 0.25);
+  opacity: 1;
 }
 
 /* Responsive - stack on small screens */

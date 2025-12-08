@@ -51,16 +51,32 @@ const Navbar = () => {
       case "Data Manager (DM)":
         return [
           { id: "profile", label: "My Profile", route: "/profile" },
-          { id: "upload-history", label: "Upload History", route: "/upload-history" },
-          { id: "pending-approvals", label: "Pending Approvals", route: "/pending-approvals" },
+          {
+            id: "upload-history",
+            label: "Upload History",
+            route: "/upload-history",
+          },
+          {
+            id: "pending-approvals",
+            label: "Pending Approvals",
+            route: "/pending-approvals",
+          },
           { id: "system-logs", label: "System Logs", route: "/system-logs" },
           { id: "settings", label: "Settings", route: "/settings" },
         ];
       case "Admin":
         return [
           { id: "profile", label: "My Profile", route: "/profile" },
-          { id: "user-mgmt", label: "User Management", route: "/user-management" },
-          { id: "role-assign", label: "Role Assignment", route: "/role-assignment" },
+          {
+            id: "user-mgmt",
+            label: "User Management",
+            route: "/user-management",
+          },
+          {
+            id: "role-assign",
+            label: "Role Assignment",
+            route: "/role-assignment",
+          },
           { id: "system-health", label: "System Health", route: "/system-health" },
           { id: "audit-logs", label: "Audit Logs", route: "/audit-logs" },
           { id: "settings", label: "Settings", route: "/settings" },
@@ -68,17 +84,37 @@ const Navbar = () => {
       case "Domain Expert":
         return [
           { id: "profile", label: "My Profile", route: "/profile" },
-          { id: "assigned-domains", label: "Assigned Domains", route: "/assigned-domains" },
-          { id: "rule-editor", label: "Rule Editor Access", route: "/rule-editor" },
-          { id: "contrib-log", label: "Contribution Log", route: "/contributions" },
+          {
+            id: "assigned-domains",
+            label: "Assigned Domains",
+            route: "/assigned-domains",
+          },
+          {
+            id: "rule-editor",
+            label: "Rule Editor Access",
+            route: "/rule-editor",
+          },
+          {
+            id: "contrib-log",
+            label: "Contribution Log",
+            route: "/contributions",
+          },
           { id: "settings", label: "Settings", route: "/settings" },
         ];
       case "Data Collector":
         return [
           { id: "profile", label: "My Profile", route: "/profile" },
           { id: "my-uploads", label: "My Uploads", route: "/my-uploads" },
-          { id: "upload-status", label: "Upload Status", route: "/upload-status" },
-          { id: "feedback", label: "Feedback / Rejections", route: "/upload-feedback" },
+          {
+            id: "upload-status",
+            label: "Upload Status",
+            route: "/upload-status",
+          },
+          {
+            id: "feedback",
+            label: "Feedback / Rejections",
+            route: "/upload-feedback",
+          },
           { id: "settings", label: "Settings", route: "/settings" },
         ];
       default:
@@ -113,6 +149,15 @@ const Navbar = () => {
           }`}
         >
           Home
+        </Link>
+
+        <Link
+          to="/docs"
+          className={`nav-link ${
+            location.pathname === "/docs" ? "nav-link-active" : ""
+          }`}
+        >
+          Docs
         </Link>
       </nav>
 
