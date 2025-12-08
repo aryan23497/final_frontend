@@ -207,7 +207,7 @@ const VisualizationTool = () => {
 
     setLoading(true);
 
-    const backendUrl = "http://10.121.243.94:8000/ocean/plot/multi";
+    const backendUrl = "http://192.168.0.20:8000/ocean-overlay/multi";
     const { body, params } = buildPayloadAndParams();
 
     if (controllerRef.current) {
@@ -383,23 +383,6 @@ const VisualizationTool = () => {
             </div>
           </>
         )}
-
-        <div className="viz-form-group">
-          <label>Plot Type</label>
-          <select
-            value={plotType}
-            onChange={(e) => setPlotType(e.target.value)}
-          >
-            <option value="line">Line</option>
-            <option value="bubble">Bubble</option>
-            <option value="scatter">Scatter</option>
-          </select>
-          <small
-            style={{ color: "#9fb4d8", display: "block", marginTop: 6 }}
-          >
-            Selected plot type is sent to backend as <code>plot_type</code>.
-          </small>
-        </div>
 
         <div style={{ marginTop: 18 }}>
           <VisualizationParametersPanel

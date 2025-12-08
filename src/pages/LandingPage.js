@@ -181,7 +181,17 @@ function HeroCarousel({
 const LandingPage = () => {
   return (
     <main className="landing">
-      <p className="hero-badge">Ministry of Earth Sciences · CMLRE · Kochi</p>
+      {/* Logo and Badge Section */}
+      <div className="landing-header">
+        <p className="hero-badge-left">Ministry of Earth Sciences · CMLRE · Kochi</p>
+        <div className="landing-logo-container">
+          <img 
+            src="/assets/logo.png" 
+            alt="CMLRE Logo" 
+            className="landing-logo"
+          />
+        </div>
+      </div>
 
       {/* Banner Image / Carousel Below Navbar */}
       {/* Put your images into public/assets/ as explained, or update paths */}
@@ -334,6 +344,21 @@ const LandingPage = () => {
           <h2>Build the next-generation marine data backbone for India</h2>
           <p>Empower scientists, conservationists, and policymakers with a unified platform for holistic marine ecosystem assessment.</p>
           <Link to="/login" className="btn btn-primary">Login to Prototype</Link>
+        </div>
+      </section>
+
+      <section className="section section-publications">
+        <div className="publications-cta">
+          <h3>Explore Official Publications</h3>
+          <p>Access research papers, reports, and scientific publications from the Ministry of Earth Sciences</p>
+          <a 
+            href="https://www.moes.gov.in/documents/publication" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="btn btn-primary"
+          >
+            View MoES Publications
+          </a>
         </div>
       </section>
     </main>
