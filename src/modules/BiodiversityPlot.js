@@ -1,33 +1,54 @@
+// BiodiversityPlot.js (updated)
+// Replace your existing file with this version.
+
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import "./BiodiversityPlot.css";
 
-// Taxonomy endpoint
-const TAXONOMY_URL = "http://10.121.243.94:8000/taxonomy/map";
+// API base — change if your backend runs on a different host/port
+const BASE_URL = "http://192.168.0.2:8000";
+
+const PLOTS_LIST = [
+  "richness_heatmap",
+  "family_composition",
+  "rank_abundance",
+  "locality_diversity",
+];
+
+const INDICES_LIST = [
+  "shannon_index",
+  "simpson_dominance",
+  "evenness_scatter",
+  "diversity_rank",
+];
 
 const BiodiversityPlot = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // family input (text)
-  const [family, setFamily] = useState("");
+  // category: 'plots' or 'indices'
+  const [category, setCategory] = useState("plots");
+  // selected plot/index option
+  const [choice, setChoice] = useState(PLOTS_LIST[0]);
 
   // For displaying generated image blob
   const [plotImage, setPlotImage] = useState(null);
 
-  // For embedding "open map here" iframe
+  // For embedding "open map here" iframe (or endpoint output)
   const [livePlotUrl, setLivePlotUrl] = useState(null);
 
   const mountedRef = useRef(true);
   const controllerRef = useRef(null);
 
-  // Generate plot → fetch blob image
+  // Compute endpoint path based on selected category
+  const endpointFor = (cat) => `${BASE_URL}/biodiversity/${cat}`;
+
+  // Generate plot → fetch blob image (same behavior as before but with dropdowns)
   const generatePlot = async () => {
     setError(null);
 
-    const familyTrimmed = (family || "").trim();
-    if (!familyTrimmed) {
-      setError("Please enter a family name (example: Acoetidae)");
+    if (!choice) {
+      setError("Please select a plot or index option.");
       return;
     }
 
@@ -36,21 +57,25 @@ const BiodiversityPlot = () => {
 
     // clear previous blob URL
     if (plotImage) {
-      try { URL.revokeObjectURL(plotImage); } catch {}
+      try {
+        URL.revokeObjectURL(plotImage);
+      } catch {}
       setPlotImage(null);
     }
 
     // cancel previous request
     if (controllerRef.current) {
-      try { controllerRef.current.abort(); } catch {}
+      try {
+        controllerRef.current.abort();
+      } catch {}
     }
 
     const controller = new AbortController();
     controllerRef.current = controller;
 
     try {
-      const response = await axios.get(TAXONOMY_URL, {
-        params: { family: familyTrimmed },
+      const response = await axios.get(endpointFor(category), {
+        params: { plot: choice },
         responseType: "blob",
         timeout: 30000,
         signal: controller.signal,
@@ -84,25 +109,36 @@ const BiodiversityPlot = () => {
     }
   };
 
-  // Opens the taxonomy map inside the same page using an iframe
-  const openMapHere = () => {
-    const familyTrimmed = (family || "").trim();
-    if (!familyTrimmed) {
-      setError("Please enter a family name first.");
+  // Opens the selected endpoint inside the same page using an iframe
+  // Useful if the endpoint can render HTML / interactive content
+  const openHere = () => {
+    if (!choice) {
+      setError("Please select a plot or index option first.");
       return;
     }
 
     setError(null);
 
-    const url = `${TAXONOMY_URL}?family=${encodeURIComponent(familyTrimmed)}`;
+    const url = `${endpointFor(category)}?plot=${encodeURIComponent(choice)}`;
     setLivePlotUrl(url);
 
     // hide blob image
     if (plotImage) {
-      try { URL.revokeObjectURL(plotImage); } catch {}
+      try {
+        URL.revokeObjectURL(plotImage);
+      } catch {}
       setPlotImage(null);
     }
   };
+
+  // when category changes, default the choice to the first of that category
+  useEffect(() => {
+    if (category === "plots") {
+      setChoice(PLOTS_LIST[0]);
+    } else {
+      setChoice(INDICES_LIST[0]);
+    }
+  }, [category]);
 
   // Cleanup
   useEffect(() => {
@@ -112,39 +148,68 @@ const BiodiversityPlot = () => {
       mountedRef.current = false;
 
       if (controllerRef.current) {
-        try { controllerRef.current.abort(); } catch {}
+        try {
+          controllerRef.current.abort();
+        } catch {}
       }
 
       if (plotImage) {
-        try { URL.revokeObjectURL(plotImage); } catch {}
+        try {
+          URL.revokeObjectURL(plotImage);
+        } catch {}
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div className="biodiversity-plot" style={{ padding: 16, borderRadius:20 }}>
+    <div className="biodiversity-plot" style={{ padding: 16, borderRadius: 20 }}>
       <header style={{ marginBottom: 12 }}>
-        <h3 style={{ margin: 0 }}>Taxonomy Map (by Family)</h3>
+        <h3 style={{ margin: 0 }}>Biodiversity — Plots & Indices</h3>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 12 }}>
-          
-          <label htmlFor="family-input" style={{ color: "#6b7280" }}>
-            Enter Family Name:
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 12, flexWrap: "wrap" }}>
+          <label htmlFor="category-select" style={{ color: "#6b7280" }}>
+            Category:
           </label>
 
-          <input
-            id="family-input"
-            type="text"
-            placeholder="Family Name"
-            value={family}
-            onChange={(e) => setFamily(e.target.value)}
+          <select
+            id="category-select"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
             style={{
               padding: "6px 12px",
               borderRadius: 8,
               border: "1px solid rgba(148,163,184,0.3)",
-              minWidth: 200,
+              minWidth: 180,
+              background: "white",
             }}
-          />
+          >
+            <option value="plots">plots</option>
+            <option value="indices">indices</option>
+          </select>
+
+          <label htmlFor="choice-select" style={{ color: "#6b7280" }}>
+            Choice:
+          </label>
+
+          <select
+            id="choice-select"
+            value={choice}
+            onChange={(e) => setChoice(e.target.value)}
+            style={{
+              padding: "6px 12px",
+              borderRadius: 8,
+              border: "1px solid rgba(148,163,184,0.3)",
+              minWidth: 260,
+              background: "white",
+            }}
+          >
+            {(category === "plots" ? PLOTS_LIST : INDICES_LIST).map((opt) => (
+              <option key={opt} value={opt}>
+                {opt}
+              </option>
+            ))}
+          </select>
 
           <button
             onClick={generatePlot}
@@ -163,7 +228,7 @@ const BiodiversityPlot = () => {
           </button>
 
           <button
-            onClick={openMapHere}
+            onClick={openHere}
             style={{
               padding: "8px 16px",
               borderRadius: 8,
@@ -172,11 +237,9 @@ const BiodiversityPlot = () => {
               cursor: "pointer",
             }}
           >
-            Open Map Here
+            Open Here
           </button>
         </div>
-
-        
       </header>
 
       {/* Error message */}
@@ -187,7 +250,7 @@ const BiodiversityPlot = () => {
         <div style={{ marginTop: 12 }}>
           <img
             src={plotImage}
-            alt="taxonomy-plot"
+            alt="biodiversity-plot"
             style={{
               width: "100%",
               maxHeight: 700,
@@ -204,7 +267,7 @@ const BiodiversityPlot = () => {
         <div style={{ marginTop: 12 }}>
           <iframe
             src={livePlotUrl}
-            title="taxonomy-map"
+            title="biodiversity-output"
             style={{
               width: "100%",
               height: 700,
@@ -217,8 +280,8 @@ const BiodiversityPlot = () => {
 
       {!plotImage && !livePlotUrl && (
         <div style={{ marginTop: 12, color: "#6b7280" }}>
-          No plot loaded yet. Enter a family and click <strong>Generate Plot</strong> or{" "}
-          <strong>Open Map Here</strong>.
+          No plot loaded yet. Choose a category and option, then click <strong>Generate Plot</strong> or{" "}
+          <strong>Open Here</strong>.
         </div>
       )}
     </div>

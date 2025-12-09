@@ -26,8 +26,8 @@
   border: 1px solid rgba(148, 163, 184, 0.12);
   padding: 0.4rem 1.2rem 1.1rem;
   box-sizing: border-box;
-  display: flex;            /* added: allow children to stretch vertically */
-  flex-direction: column;   /* added: stack panel content vertically */
+  display: flex;            
+  flex-direction: column;
 }
 
 /* Grid placement */
@@ -126,16 +126,13 @@
   margin-bottom: 0.8rem;
 }
 
-/* (Layer buttons removed in JS as requested) */
 .viz-layer-toggle { display: none; }
 
-/* Map placeholder
-   NOTE: changed to be flexible (no fixed height) so it stretches with the right column.
-*/
+/* Map placeholder */
 .viz-map-placeholder {
   position: relative;
-  min-height: 320px;          /* fallback minimum height */
-  flex: 1 1 auto;             /* allows growth to match sibling height */
+  min-height: 320px;
+  flex: 1 1 auto;
   border-radius: 16px;
   border: 1px dashed rgba(148, 163, 184, 0.25);
   background: linear-gradient(180deg, rgba(2,6,23,0.6), rgba(2,6,23,0.95));
@@ -166,7 +163,6 @@
 /* overlay text */
 .viz-map-placeholder p,
 .viz-map-placeholder span { position: relative; z-index: 1; }
-.viz-map-placeholder span { font-size: 0.82rem; color: #64748b; }
 
 /* Metrics grid */
 .viz-metrics-grid {
@@ -200,7 +196,7 @@
   color: #6b7280;
 }
 
-/* Date input (HTML5 date picker with visible calendar icon) */
+/* Date input styling */
 .date-input {
   width: 100%;
   padding: 10px 12px;
@@ -211,7 +207,6 @@
   font-size: 0.95rem;
   outline: none;
   box-sizing: border-box;
-  position: relative;
 }
 
 .date-input::placeholder { color: rgba(226,232,240,0.45); }
@@ -221,7 +216,6 @@
   box-shadow: 0 0 6px rgba(56, 189, 248, 0.28);
 }
 
-/* Make calendar icon visible and styled */
 .date-input::-webkit-calendar-picker-indicator {
   cursor: pointer;
   filter: invert(0.8) brightness(1.2);
@@ -234,7 +228,6 @@
 .date-input::-webkit-calendar-picker-indicator:hover {
   filter: invert(1) brightness(1.5);
   background: rgba(45, 212, 191, 0.25);
-  opacity: 1;
 }
 
 /* Responsive - stack on small screens */
@@ -250,16 +243,40 @@
   .viz-map-placeholder { min-height: 320px; }
 }
 
-/* Small screens */
 @media (max-width: 640px) {
   .viz-map-placeholder { min-height: 240px; }
   .viz-apply-btn { padding: 0.5rem 0.6rem; font-size: 0.9rem; }
 }
 
-/* Safety overrides to avoid older float/flex interference */
+/* Safety overrides */
 .viz-layout .viz-panel-left,
 .viz-layout .viz-panel-main,
 .viz-layout .viz-panel-bottom {
   float: none !important;
   display: block;
+}
+
+/* JSON viewer styling */
+.json-viewer {
+  background: rgba(2,6,23,0.6);
+  border: 1px solid rgba(148,163,184,0.08);
+  border-radius: 10px;
+  padding: 12px;
+  color: #d1e8ff;
+  max-height: 520px;
+  overflow: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono";
+  font-size: 0.9rem;
+  line-height: 1.45;
+  box-shadow: 0 8px 24px rgba(2,6,23,0.6);
+}
+
+.taxonomy-text-input {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(148,163,184,0.06);
+  background: rgba(255,255,255,0.02);
+  color: #e2e8f0;
+  box-sizing: border-box;
 }
