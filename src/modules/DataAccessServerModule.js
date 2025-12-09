@@ -1,305 +1,435 @@
 // src/modules/DataAccessServerModule.js
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import "./DataAccessServerModule.css";
 
-const DOMAINS = [
-  { value: "all", label: "All domains" },
-  { value: "oceanography", label: "Oceanography" },
-  { value: "fisheries", label: "Fisheries" },
-  { value: "edna", label: "eDNA / Metabarcoding" },
-  { value: "molecular", label: "Molecular Biology / Barcoding" },
-  { value: "taxonomy", label: "Taxonomy & Systematics" },
-  { value: "gis", label: "GIS / Remote Sensing" },
+/**
+ * DataAccessServerModule — JS updated to match your original DAS CSS layout
+ *
+ * Behaviour:
+ * - Domain options limited to: Oceanography, Biodiversity, eDNA, Otolith taxonomy (+ "All domains")
+ * - Data sensitivity dropdown is static UI-only
+ * - "Apply filters" triggers listing:
+ *    - single domain -> GET /api/datasets/{domain}
+ *    - "all" -> parallel GETs and merge results
+ * - Each dataset row has "Request access" which POSTs to /api/presign
+ *   and then is replaced by 3 buttons: Raw / Curated / Metadata
+ *
+ * Notes:
+ * - Uses safeFetch fallback logic similar to your earlier component (tries effectiveApiBase then fallback).
+ * - Keeps markup class names to match the CSS you provided so positions/styling remain unchanged. 
+ * - No CSS was changed. See CSS file you provided for DAS styling. :contentReference[oaicite:2]{index=2}
+ */
+
+// domain options (IDs used in API)
+const DOMAIN_OPTIONS = [
+  { id: "all", label: "All domains" },
+  { id: "oceanographic", label: "Oceanography" },
+  { id: "biodiversity", label: "Biodiversity" }, // changed from fisheries
+  { id: "edna", label: "eDNA" },                // edna label
+  { id: "otolith", label: "Otolith taxonomy" },// changed label
 ];
 
-const SAMPLE_DATASETS = [
-  {
-    id: 1,
-    name: "Arabian Sea CTD & Nutrients (2018–2022)",
-    domain: "oceanography",
-    type: "Physical + Chemical",
-    size: "4.2 GB",
-    updated: "2024-01-10",
-    sensitivity: "low",
-    tags: ["CTD", "Nutrients", "Time-series"],
-  },
-  {
-    id: 2,
-    name: "Pelagic Fish Acoustic Survey – Eastern Arabian Sea",
-    domain: "fisheries",
-    type: "Acoustic + Trawl",
-    size: "1.8 GB",
-    updated: "2023-11-02",
-    sensitivity: "medium",
-    tags: ["Fisheries", "Biomass", "Acoustics"],
-  },
-  {
-    id: 3,
-    name: "Coastal eDNA – Kerala Shelf (Pilot Transects)",
-    domain: "edna",
-    type: "eDNA Reads (FASTQ)",
-    size: "850 MB",
-    updated: "2024-02-18",
-    sensitivity: "high",
-    tags: ["eDNA", "Metabarcoding", "Coastal"],
-  },
-  {
-    id: 4,
-    name: "Reference Fish Barcode Library – Indian EEZ",
-    domain: "molecular",
-    type: "COI + 16S Sequences",
-    size: "620 MB",
-    updated: "2023-09-25",
-    sensitivity: "medium",
-    tags: ["DNA Barcoding", "Reference Library"],
-  },
-  {
-    id: 5,
-    name: "Multispectral Chlorophyll-a & SST Grids",
-    domain: "gis",
-    type: "Gridded Satellite Products",
-    size: "9.5 GB",
-    updated: "2024-03-05",
-    sensitivity: "low",
-    tags: ["Ocean Colour", "SST", "Remote Sensing"],
-  },
-  {
-    id: 6,
-    name: "Indian EEZ Fish Occurrence Records",
-    domain: "taxonomy",
-    type: "Occurrence Table",
-    size: "320 MB",
-    updated: "2023-08-14",
-    sensitivity: "low",
-    tags: ["Taxonomy", "Occurrences", "Species"],
-  },
+const SENSITIVITY_OPTIONS = [
+  { id: "public", label: "Public" },
+  { id: "sensitive", label: "Sensitive" },
+  { id: "restricted", label: "Restricted" },
 ];
 
-const DataAccessServerModule = () => {
-  const [filters, setFilters] = useState({
-    domain: "all",
-    search: "",
-    sensitivity: "all",
-  });
+const DEFAULT_BACKEND = "http://127.0.0.1:8000";
 
-  const [filteredData, setFilteredData] = useState(SAMPLE_DATASETS);
+export default function DataAccessServerModule({ apiBase = "" }) {
+  const effectiveApiBase = apiBase || (typeof window !== "undefined" && window.__API_BASE__) || "";
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFilters((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  // state
+  const [selectedDomain, setSelectedDomain] = useState("oceanographic");
+  const [selectedSensitivity, setSelectedSensitivity] = useState("public"); // UI-only
+  const [datasets, setDatasets] = useState([]); // [{ name, domain }]
+  const [loading, setLoading] = useState(false);
+  const [presigns, setPresigns] = useState({}); // key -> { raw_url, curated_url, metadata_url }
+  const [loadingPresign, setLoadingPresign] = useState({}); // key -> bool
+  const [error, setError] = useState(null);
+  const [lastApiUsed, setLastApiUsed] = useState(null);
+  const [triedFallbackThisCall, setTriedFallbackThisCall] = useState(false);
 
-  const handleApplyFilters = (e) => {
-    e.preventDefault();
+  // domain map for labels
+  const domainMap = useMemo(() => {
+    const m = {};
+    DOMAIN_OPTIONS.forEach((d) => (m[d.id] = d.label));
+    return m;
+  }, []);
 
-    let result = [...SAMPLE_DATASETS];
+  // helpers
+  function buildUrl(base, path) {
+    if (path.startsWith("http://") || path.startsWith("https://")) return path;
+    if (!base) return path.startsWith("/") ? path : "/" + path;
+    return base.replace(/\/+$/, "") + (path.startsWith("/") ? path : "/" + path);
+  }
 
-    if (filters.domain !== "all") {
-      result = result.filter((d) => d.domain === filters.domain);
+  // safe fetch with fallback to DEFAULT_BACKEND (keeps debug info)
+  async function safeFetch(pathOrFullUrl, opts = {}) {
+    const explicit = pathOrFullUrl.startsWith("http://") || pathOrFullUrl.startsWith("https://");
+    const primaryBase = effectiveApiBase;
+    const primaryUrl = explicit ? pathOrFullUrl : buildUrl(primaryBase, pathOrFullUrl);
+
+    try {
+      const resp = await fetch(primaryUrl, { ...opts, cache: opts.cache ?? "no-store" });
+      const ct = resp.headers.get("content-type") || "";
+
+      // If we accidentally get HTML (index.html), try fallback once
+      if (ct.includes("text/html")) {
+        if (triedFallbackThisCall) {
+          const text = await resp.text();
+          setLastApiUsed(primaryUrl);
+          setTriedFallbackThisCall(false);
+          return { ok: resp.ok, status: resp.status, contentType: ct, text, usedBase: primaryUrl };
+        }
+
+        const fallbackBase = primaryBase ? primaryBase : DEFAULT_BACKEND;
+        const fallbackUrl = buildUrl(fallbackBase, pathOrFullUrl);
+
+        if (fallbackUrl === primaryUrl) {
+          const body = await resp.text();
+          setLastApiUsed(primaryUrl);
+          return { ok: resp.ok, status: resp.status, contentType: ct, text: body, usedBase: primaryUrl };
+        }
+
+        setTriedFallbackThisCall(true);
+        try {
+          const fallbackResp = await fetch(fallbackUrl, { ...opts, cache: opts.cache ?? "no-store" });
+          const fct = fallbackResp.headers.get("content-type") || "";
+          if (fct.includes("application/json")) {
+            const json = await fallbackResp.json();
+            setLastApiUsed(fallbackUrl);
+            setTriedFallbackThisCall(false);
+            return { ok: fallbackResp.ok, status: fallbackResp.status, contentType: fct, json, usedBase: fallbackUrl };
+          } else {
+            const text = await fallbackResp.text();
+            setLastApiUsed(fallbackUrl);
+            setTriedFallbackThisCall(false);
+            return { ok: fallbackResp.ok, status: fallbackResp.status, contentType: fct, text, usedBase: fallbackUrl };
+          }
+        } catch (fbErr) {
+          const ptext = await resp.text();
+          setLastApiUsed(primaryUrl);
+          setTriedFallbackThisCall(false);
+          return { ok: resp.ok, status: resp.status, contentType: ct, text: ptext, usedBase: primaryUrl, error: fbErr };
+        }
+      }
+
+      if (ct.includes("application/json")) {
+        const json = await resp.json();
+        setLastApiUsed(primaryUrl);
+        setTriedFallbackThisCall(false);
+        return { ok: resp.ok, status: resp.status, contentType: ct, json, usedBase: primaryUrl };
+      }
+
+      const text = await resp.text();
+      setLastApiUsed(primaryUrl);
+      setTriedFallbackThisCall(false);
+      return { ok: resp.ok, status: resp.status, contentType: ct, text, usedBase: primaryUrl };
+    } catch (err) {
+      if (!triedFallbackThisCall) {
+        setTriedFallbackThisCall(true);
+        const fallbackUrl = buildUrl(DEFAULT_BACKEND, pathOrFullUrl);
+        try {
+          const fallbackResp = await fetch(fallbackUrl, { ...opts, cache: opts.cache ?? "no-store" });
+          const fct = fallbackResp.headers.get("content-type") || "";
+          if (fct.includes("application/json")) {
+            const json = await fallbackResp.json();
+            setLastApiUsed(fallbackUrl);
+            setTriedFallbackThisCall(false);
+            return { ok: fallbackResp.ok, status: fallbackResp.status, contentType: fct, json, usedBase: fallbackUrl };
+          } else {
+            const text = await fallbackResp.text();
+            setLastApiUsed(fallbackUrl);
+            setTriedFallbackThisCall(false);
+            return { ok: fallbackResp.ok, status: fallbackResp.status, contentType: fct, text, usedBase: fallbackUrl };
+          }
+        } catch (fbErr) {
+          setTriedFallbackThisCall(false);
+          return { ok: false, status: 0, error: fbErr, usedBase: null };
+        }
+      }
+      return { ok: false, status: 0, error: err, usedBase: null };
     }
+  }
 
-    if (filters.sensitivity !== "all") {
-      result = result.filter((d) => d.sensitivity === filters.sensitivity);
+  // unique key to avoid collisions when merging lists
+  function datasetKey(domain, name) {
+    return `${domain}::${name}`;
+  }
+
+  // Apply filters: fetch datasets
+  async function applyFilters() {
+    setError(null);
+    setDatasets([]);
+    setPresigns({});
+    setLoading(true);
+
+    try {
+      if (selectedDomain === "all") {
+        const domainIds = DOMAIN_OPTIONS.filter((d) => d.id !== "all").map((d) => d.id);
+        const requests = domainIds.map((dom) =>
+          safeFetch(`/api/datasets/${encodeURIComponent(dom)}`, { method: "GET" }).then((res) => ({ dom, res }))
+        );
+
+        const results = await Promise.all(requests);
+        const merged = [];
+        const seen = new Set();
+
+        for (const { dom, res } of results) {
+          if (!res.ok) {
+            const body = res.text || JSON.stringify(res.json) || "";
+            throw new Error(`List failed for ${dom}: ${res.status} ${body}`);
+          }
+          if (res.contentType && res.contentType.includes("application/json") && Array.isArray(res.json)) {
+            for (const name of res.json) {
+              const key = datasetKey(dom, name);
+              if (!seen.has(key)) {
+                seen.add(key);
+                merged.push({ name, domain: dom });
+              }
+            }
+          } else {
+            const t = res.text || "(no body)";
+            throw new Error(`Expected JSON from ${dom} but got: ${t}`);
+          }
+        }
+
+        setDatasets(merged);
+        setError(null);
+      } else {
+        const res = await safeFetch(`/api/datasets/${encodeURIComponent(selectedDomain)}`, { method: "GET" });
+        if (!res.ok) {
+          const body = res.text || JSON.stringify(res.json) || "";
+          throw new Error(`List failed: ${res.status} ${body}`);
+        }
+        if (res.contentType && res.contentType.includes("application/json") && Array.isArray(res.json)) {
+          const arr = res.json.map((name) => ({ name, domain: selectedDomain }));
+          setDatasets(arr);
+          setError(null);
+        } else {
+          const t = res.text || "(no body)";
+          throw new Error(`Expected JSON but got: ${t}`);
+        }
+      }
+    } catch (err) {
+      console.error("applyFilters error:", err);
+      setError(String(err.message || err));
+    } finally {
+      setLoading(false);
     }
+  }
 
-    if (filters.search.trim()) {
-      const q = filters.search.toLowerCase();
-      result = result.filter(
-        (d) =>
-          d.name.toLowerCase().includes(q) ||
-          d.type.toLowerCase().includes(q) ||
-          d.tags.some((t) => t.toLowerCase().includes(q))
+  // Request presign
+  async function requestAccess(domain, name) {
+    const key = datasetKey(domain, name);
+    setLoadingPresign((p) => ({ ...p, [key]: true }));
+    setError(null);
+
+    try {
+      const res = await safeFetch("/api/presign", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ domain, dataset: name, expires_in: 300 }),
+      });
+
+      if (!res.ok) {
+        const body = res.text || JSON.stringify(res.json) || "";
+        throw new Error(`Presign failed: ${res.status} ${body}`);
+      }
+
+      if (res.contentType && res.contentType.includes("application/json") && res.json) {
+        setPresigns((p) => ({ ...p, [key]: res.json }));
+      } else {
+        const t = res.text || "(no body)";
+        throw new Error(`Presign response not JSON: ${t}`);
+      }
+    } catch (err) {
+      console.error("requestAccess error:", err);
+      setError(String(err.message || err));
+    } finally {
+      setLoadingPresign((p) => ({ ...p, [key]: false }));
+    }
+  }
+
+  // Access controls (placed inside dataset meta area so position doesn't change)
+  function AccessControls({ domain, name }) {
+    const key = datasetKey(domain, name);
+    const presign = presigns[key] || null;
+    const requesting = !!loadingPresign[key];
+
+    // match the original request button class from CSS
+    if (!presign) {
+      return (
+        <button
+          className="btn das-btn-request"
+          onClick={() => requestAccess(domain, name)}
+          disabled={requesting}
+          title="Request access"
+        >
+          {requesting ? "Requesting…" : "Request access"}
+        </button>
       );
     }
 
-    setFilteredData(result);
-  };
+    const { raw_url, curated_url, metadata_url } = presign;
 
-  const handleReset = () => {
-    setFilters({
-      domain: "all",
-      search: "",
-      sensitivity: "all",
-    });
-    setFilteredData(SAMPLE_DATASETS);
-  };
+    // use existing button classes so visual position & look remains consistent with CSS
+    return (
+      <div style={{ display: "flex", gap: 8, justifyContent: "flex-end", alignItems: "center", marginTop: 6 }}>
+        {raw_url ? (
+          <a className="btn das-btn-secondary" href={raw_url} target="_blank" rel="noreferrer" download>
+            Raw
+          </a>
+        ) : (
+          <button className="btn das-btn-secondary" disabled>
+            Raw
+          </button>
+        )}
 
+        {curated_url ? (
+          <a className="btn das-btn-secondary" href={curated_url} target="_blank" rel="noreferrer" download>
+            Curated
+          </a>
+        ) : (
+          <button className="btn das-btn-secondary" disabled>
+            Curated
+          </button>
+        )}
+
+        {metadata_url ? (
+          <a className="btn das-btn-secondary" href={metadata_url} target="_blank" rel="noreferrer" download>
+            Metadata
+          </a>
+        ) : (
+          <button className="btn das-btn-secondary" disabled>
+            Metadata
+          </button>
+        )}
+      </div>
+    );
+  }
+
+  // RENDER - uses the same class names & layout the CSS expects (left panel = .das-filter-panel, right panel = .das-results-panel)
   return (
     <div className="das-layout">
-      {/* LEFT: FILTER FORM */}
-      <section className="das-filter-panel">
-        <h3 className="das-panel-title">Data Access Request</h3>
-        <p className="das-panel-subtitle">
-          Filter datasets by domain and sensitivity, then select records to
-          request access.
-        </p>
+      {/* LEFT: filters panel — class names match your CSS so positions won't change. */}
+      <aside className="das-filter-panel" aria-label="Filters">
+        <div className="das-panel-title">Filters</div>
+        <div className="das-panel-subtitle">Choose domain and sensitivity</div>
 
-        <form className="das-form" onSubmit={handleApplyFilters}>
-          {/* Domain dropdown */}
-          <label className="das-field">
-            <span className="das-label">Domain</span>
+        <div className="das-form">
+          <div className="das-field">
+            <label className="das-label">Domain</label>
             <select
-              name="domain"
-              value={filters.domain}
-              onChange={handleChange}
               className="das-input"
+              value={selectedDomain}
+              onChange={(e) => setSelectedDomain(e.target.value)}
             >
-              {DOMAINS.map((dom) => (
-                <option key={dom.value} value={dom.value}>
-                  {dom.label}
+              {DOMAIN_OPTIONS.map((d) => (
+                <option key={d.id} value={d.id}>
+                  {d.label}
                 </option>
               ))}
             </select>
-          </label>
+          </div>
 
-          {/* Sensitivity */}
-          <label className="das-field">
-            <span className="das-label">Data sensitivity</span>
+          <div className="das-field">
+            <label className="das-label">Data sensitivity</label>
             <select
-              name="sensitivity"
-              value={filters.sensitivity}
-              onChange={handleChange}
               className="das-input"
+              value={selectedSensitivity}
+              onChange={(e) => setSelectedSensitivity(e.target.value)}
             >
-              <option value="all">All levels</option>
-              <option value="low">Low (open)</option>
-              <option value="medium">Medium (restricted)</option>
-              <option value="high">High (controlled)</option>
+              {SENSITIVITY_OPTIONS.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.label}
+                </option>
+              ))}
             </select>
-          </label>
-
-          {/* Search */}
-          <label className="das-field">
-            <span className="das-label">Search</span>
-            <input
-              type="text"
-              name="search"
-              value={filters.search}
-              onChange={handleChange}
-              placeholder="Dataset name, tag, or type…"
-              className="das-input"
-            />
-          </label>
-
-          {/* Just a small note */}
-          <p className="das-note">
-            * This is a prototype view. In production, dataset access rules will
-            be enforced from the backend (FastAPI).
-          </p>
+          </div>
 
           <div className="das-actions">
-            <button type="submit" className="btn das-btn-primary">
-              Apply Filters
+            <button className="btn das-btn-primary" onClick={applyFilters} disabled={loading}>
+              {loading ? "Applying…" : "Apply filters"}
             </button>
             <button
-              type="button"
               className="btn das-btn-secondary"
-              onClick={handleReset}
+              onClick={() => {
+                // reset UI-only filters quickly
+                setSelectedDomain("oceanographic");
+                setSelectedSensitivity("public");
+                setDatasets([]);
+                setPresigns({});
+                setError(null);
+              }}
             >
               Reset
             </button>
           </div>
-        </form>
-      </section>
+        </div>
+      </aside>
 
-      {/* RIGHT: FILTERED DATASET LIST */}
-      <section className="das-results-panel">
-        <header className="das-results-header">
+      {/* RIGHT: results panel — class names match your CSS to preserve positions */}
+      <section className="das-results-panel" aria-label="Results">
+        <div className="das-results-header">
           <div>
-            <p className="das-results-title">Filtered Datasets</p>
-            <p className="das-results-subtitle">
-              {filteredData.length} dataset
-              {filteredData.length !== 1 ? "s" : ""} match your filters.
-            </p>
+            <div className="das-results-title">Datasets</div>
+            <div className="das-results-subtitle">{datasets.length} dataset{datasets.length !== 1 ? "s" : ""}</div>
           </div>
+
           <div className="das-active-filters">
-            {filters.domain !== "all" && (
-              <span className="das-chip">
-                Domain:{" "}
-                {
-                  DOMAINS.find((d) => d.value === filters.domain)?.label
-                }
-              </span>
-            )}
-            {filters.sensitivity !== "all" && (
-              <span className="das-chip">
-                Sensitivity: {filters.sensitivity.toUpperCase()}
-              </span>
-            )}
-            {filters.search.trim() && (
-              <span className="das-chip">Search: “{filters.search}”</span>
-            )}
-            {!filters.search.trim() &&
-              filters.domain === "all" &&
-              filters.sensitivity === "all" && (
-                <span className="das-chip das-chip-muted">
-                  No filters applied
-                </span>
-              )}
+            <div className="das-chip">Domain: {domainMap[selectedDomain]}</div>
+            <div className="das-chip das-chip-muted">Sensitivity: {selectedSensitivity}</div>
           </div>
-        </header>
+        </div>
+
+        {/* debug bar if needed */}
+        {lastApiUsed && (
+          <div style={{ marginBottom: 8, color: "#fbbf24", background: "#071226", padding: 6, borderRadius: 6 }}>
+            Using API: <strong>{lastApiUsed}</strong>
+          </div>
+        )}
+
+        {error && (
+          <div style={{ marginBottom: 8 }} className="das-error">
+            {error}
+          </div>
+        )}
 
         <div className="das-dataset-list">
-          {filteredData.map((d) => (
-            <article key={d.id} className="das-dataset-card">
+          {datasets.length === 0 && !loading && (
+            <div className="das-empty-state">
+              <div className="das-empty-title">No datasets found</div>
+              <div className="das-empty-text">Click Apply filters to load datasets for the selected domain.</div>
+            </div>
+          )}
+
+          {datasets.map((item) => (
+            <article key={datasetKey(item.domain, item.name)} className="das-dataset-card" role="article">
               <div className="das-dataset-main">
-                <h4 className="das-dataset-name">{d.name}</h4>
-                <p className="das-dataset-type">{d.type}</p>
-                <div className="das-dataset-tags">
-                  <span className={`das-pill domain-${d.domain}`}>
-                    {d.domain}
+                <div className="das-dataset-name">{item.name}</div>
+                <div className="das-dataset-type">{/* optional small type text */}</div>
+
+                <div className="das-dataset-tags" style={{ marginTop: 8 }}>
+                  <span className={`das-pill domain-${item.domain === "oceanographic" ? "oceanography" : item.domain}`}>
+                    {domainMap[item.domain] || item.domain}
                   </span>
-                  <span
-                    className={`das-pill sensitivity-${d.sensitivity}`}
-                  >
-                    {d.sensitivity.toUpperCase()}
-                  </span>
-                  {d.tags.map((t) => (
-                    <span key={t} className="das-tag">
-                      {t}
-                    </span>
-                  ))}
+                  <span className="das-pill sensitivity-low">{/* placeholder */}Access: Controlled</span>
                 </div>
               </div>
 
               <div className="das-dataset-meta">
-                <p className="das-meta-line">
-                  <span className="das-meta-label">Size:</span> {d.size}
-                </p>
-                <p className="das-meta-line">
-                  <span className="das-meta-label">Last updated:</span>{" "}
-                  {d.updated}
-                </p>
-                <button
-                  type="button"
-                  className="btn das-btn-request"
-                  onClick={() =>
-                    alert(
-                      `Request submitted for dataset: "${d.name}" (mock).`
-                    )
-                  }
-                >
-                  Request Access
-                </button>
+                <div className="das-meta-line"><span className="das-meta-label">Updated:</span> —</div>
+
+                {/* ACCESS controls placed here so the button occupies the same area as before */}
+                <AccessControls domain={item.domain} name={item.name} />
               </div>
             </article>
           ))}
-
-          {filteredData.length === 0 && (
-            <div className="das-empty-state">
-              <p className="das-empty-title">No datasets found</p>
-              <p className="das-empty-text">
-                Try removing one or more filters to broaden your search.
-              </p>
-            </div>
-          )}
         </div>
       </section>
     </div>
   );
-};
-
-export default DataAccessServerModule;
+}
